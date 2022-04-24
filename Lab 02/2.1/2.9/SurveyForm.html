@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-language" content="vi" />
+    <title>Workplace Complaint Form</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        min-height: 100%;
+      }
+      h1 {
+        margin: 15px 0;
+        font-weight: 400;
+      }
+      .testbox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: inherit;
+        padding: 3px;
+      }
+      form {
+        width: 100%;
+        padding: 20px;
+        background: #fff;
+        box-shadow: 0 2px 5px #ccc;
+      }
+      input,
+      select,
+      textarea {
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
+      input:hover,
+      select:hover,
+      textarea:hover {
+        outline: none;
+        border: 1px solid #095484;
+      }
+      input {
+        width: calc(100% - 10px);
+        padding: 5px;
+      }
+      select {
+        width: 100%;
+        padding: 7px 0;
+        background: transparent;
+      }
+
+      .item {
+        position: relative;
+        margin: 10px 0;
+        width: calc(50% - 10px);
+      }
+      input[type="date"]::-webkit-inner-spin-button {
+        display: none;
+      }
+      .item i,
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        position: absolute;
+        font-size: 20px;
+        color: #a9a9a9;
+      }
+      .item i {
+        right: 2%;
+        top: 30px;
+        z-index: 1;
+      }
+      [type="date"]::-webkit-calendar-picker-indicator {
+        right: 1%;
+        z-index: 2;
+        opacity: 0;
+        cursor: pointer;
+      }
+      .btn-block {
+        margin-top: 20px;
+        text-align: center;
+      }
+      button {
+        width: 150px;
+        padding: 10px;
+        border: none;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        background-color: #095484;
+        font-size: 16px;
+        color: #fff;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0666a3;
+      }
+      .status-item input,
+      .status-item span {
+        width: auto;
+        vertical-align: middle;
+      }
+      .status-item input {
+        margin: 0;
+      }
+      .status-item span {
+        margin: 0 20px 0 5px;
+      }
+    </style>
+    <style>
+      body,
+      div,
+      input,
+      p {
+        padding: 0;
+        margin: 0;
+        outline: none;
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 14px;
+        color: #666;
+        line-height: 22px;
+      }
+      h4 {
+        font-weight: 400;
+        margin: 22px 0 4px;
+      }
+      h5 {
+        text-transform: uppercase;
+        color: #095484;
+      }
+      form {
+        width: 100%;
+        padding: 20px;
+        box-shadow: 0 2px 5px #ccc;
+        background: #fff;
+      }
+      input {
+        width: calc(100% - 10px);
+        padding: 5px;
+        border-radius: 3px;
+        border: 1px solid #ccc;
+        vertical-align: middle;
+      }
+      textarea {
+        width: calc(100% - 6px);
+        outline: none;
+      }
+      input:hover,
+      textarea:hover {
+        outline: none;
+        border: 1px solid #095484;
+      }
+      th,
+      td {
+        width: 15%;
+        padding: 15px 0;
+        border-bottom: 1px solid #ccc;
+        text-align: center;
+        vertical-align: unset;
+        line-height: 18px;
+        font-weight: 400;
+        word-break: break-all;
+      }
+      .course-rate th,
+      .course-rate td {
+        width: 19%;
+      }
+      .first-col,
+      .course-rate .first-col {
+        width: 24%;
+        text-align: left;
+      }
+      .question,
+      .comments {
+        margin: 15px 0 5px;
+      }
+      .question-answer label {
+        display: inline-block;
+        padding: 0 20px 15px 0;
+      }
+      .question-answer input {
+        width: auto;
+      }
+      .question-answer,
+      table {
+        width: 100%;
+      }
+      @media (min-width: 568px) {
+        th,
+        td {
+          word-break: keep-all;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="testbox">
+      <div>
+        <form action="SurveyForm.php" method="POST">
+          <h1>Khảo sát ý kiến sinh viên về chính sách học phí mới</h1>
+          <h5>Giới thiệu về bản thân bạn</h5>
+          <div class="item">
+            <p>Họ và tên*</p>
+            <div>
+              <input type="text" name="name" required />
+            </div>
+          </div>
+          <div class="item">
+            <p>Ngày sinh*</p>
+            <input type="date" name="birthday" required />
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <div class="item">
+            <p>Email*</p>
+            <input type="email" name="email" required />
+          </div>
+          <div class="item">
+            <label>
+              Số điện thoại
+              <input
+                type="tel"
+                name="phoneNumber"
+                pattern="(09|03|07|08|05)+([0-9]{8,9})\b"
+            /></label>
+          </div>
+          <div class="item">
+            <p>Khoa/Viện*</p>
+            <select name="department">
+              <option value="Viện Cơ khí">Viện Cơ khí</option>
+              <option value="Viện Cơ khí động lực">Viện Cơ khí động lực</option>
+              <option value="Viện KH&CN Nhiệt-Lạnh">
+                Viện KH&CN Nhiệt-Lạnh
+              </option>
+              <option value="Viện Điện">Viện Điện</option>
+              <option value="Viện Công nghệ Thông tin và Truyền thông">
+                Viện Công nghệ Thông tin và Truyền thông
+              </option>
+              <option value="Viện Toán ứng dụng và Tin học">
+                Viện Toán ứng dụng và Tin học
+              </option>
+              <option value="Viện Kỹ thuật Hoá học">
+                Viện Kỹ thuật Hoá học
+              </option>
+              <option value="Viện Công nghệ sinh học và Công nghệ thực phẩm">
+                Viện Công nghệ sinh học và Công nghệ thực phẩm
+              </option>
+              <option value="Viện KH&CN MT">Viện KH&CN MT</option>
+              <option value="Viện Khoa học và Kỹ thuật Vật liệu">
+                Viện Khoa học và Kỹ thuật Vật liệu
+              </option>
+              <option value="Viện Công nghệ Dệt-May, Da giầy và Thời trang">
+                Viện Công nghệ Dệt-May, Da giầy và Thời trang
+              </option>
+              <option value="Viện Vật lý Kỹ thuật">Viện Vật lý Kỹ thuật</option>
+              <option value="Viện Kỹ thuật Hạt nhân và Vật lý môi trường">
+                Viện Kỹ thuật Hạt nhân và Vật lý môi trường
+              </option>
+              <option value="Viện Sư phạm kỹ thuật">
+                Viện Sư phạm kỹ thuật
+              </option>
+              <option value="Viện Kinh tế và Quản lý">
+                Viện Kinh tế và Quản lý
+              </option>
+              <option value="Viện Ngoại ngữ">Viện Ngoại ngữ</option>
+            </select>
+          </div>
+          <div class="item">
+            <p>Lớp*</p>
+            <input type="text" name="class" required />
+          </div>
+          <p class="question">Giới tính*</p>
+          <div class="question-answer">
+            <label
+              ><input type="radio" value="Nam" name="gender" required checked />
+              Nam</label
+            >
+            <label><input type="radio" value="Nữ" name="gender" /> Nữ</label>
+            <label
+              ><input type="radio" value="Khác" name="gender" /> Khác</label
+            >
+          </div>
+          <h5>Quan điểm của bạn về chính sách học phí mới</h5>
+          <div>
+            <table>
+              <tr>
+                <th class="first-col"></th>
+                <th>Rất không đồng ý</th>
+                <th>Không đồng ý</th>
+                <th>Bình thường</th>
+                <th>Đồng ý</th>
+                <th>Rất đồng ý</th>
+              </tr>
+              <tr>
+                <td class="first-col">
+                  1*. Nhà trường đã công khai và minh bạch với sinh viên và gia
+                  đình trong các vấn đề về học phí.
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    value="Strongly Disagree"
+                    name="question1"
+                    required
+                  />
+                </td>
+                <td>
+                  <input type="radio" value="Disagree" name="question1" />
+                </td>
+                <td><input type="radio" value="Neutral" name="question1" /></td>
+                <td><input type="radio" value="Agree" name="question1" /></td>
+                <td>
+                  <input type="radio" value="Strongly Agree" name="question1" />
+                </td>
+              </tr>
+              <tr>
+                <td class="first-col">
+                  2*. Mức học phí mới và lộ trình tăng học phí được công bố gần
+                  đây là phù hợp với chính sách của Nhà nước và bối cảnh hiện
+                  tại.
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    value="Strongly Disagree"
+                    name="question2"
+                    required
+                  />
+                </td>
+                <td>
+                  <input type="radio" value="Disagree" name="question2" />
+                </td>
+                <td><input type="radio" value="Neutral" name="question2" /></td>
+                <td><input type="radio" value="Agree" name="question2" /></td>
+                <td>
+                  <input type="radio" value="Strongly Agree" name="question2" />
+                </td>
+              </tr>
+              <tr>
+                <td class="first-col">
+                  3*. Thời điểm công bố chính sách học phí mới phù hợp cho sự
+                  tiếp nhận và chuẩn bị của sinh viên và gia đình.
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    value="Strongly Disagree"
+                    name="question3"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    value="Disagree"
+                    name="question3"
+                    required
+                  />
+                </td>
+                <td><input type="radio" value="Neutral" name="question3" /></td>
+                <td><input type="radio" value="Agree" name="question3" /></td>
+                <td>
+                  <input type="radio" value="Strongly Agree" name="question3" />
+                </td>
+              </tr>
+              <tr>
+                <td class="first-col">
+                  4*. Mức học phí trong những năm gần đây tương xứng với sự thay
+                  đổi, cải thiện về mọi mặt của Trường.
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    value="Strongly Disagree"
+                    name="question4"
+                    required
+                  />
+                </td>
+                <td>
+                  <input type="radio" value="Disagree" name="question4" />
+                </td>
+                <td><input type="radio" value="Neutral" name="question4" /></td>
+                <td><input type="radio" value="Agree" name="question4" /></td>
+                <td>
+                  <input type="radio" value="Strongly Agree" name="question4" />
+                </td>
+              </tr>
+              <tr>
+                <td class="first-col">
+                  5*. Nhà trường cần thiết lập một kênh tương tác hai chiều phản
+                  hồi nhanh dành cho việc đối thoại với sinh viên.
+                </td>
+                <td>
+                  <input
+                    type="radio"
+                    value="Strongly Disagree"
+                    name="question5"
+                    required
+                  />
+                </td>
+                <td>
+                  <input type="radio" value="Disagree" name="question5" />
+                </td>
+                <td><input type="radio" value="Neutral" name="question5" /></td>
+                <td><input type="radio" value="Agree" name="question5" /></td>
+                <td>
+                  <input type="radio" value="Strongly Agree" name="question5" />
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="question"></p>
+          <div class="item status">
+            <h5>
+              Giải pháp thống nhất ý kiến giữa Nhà trường, sinh viên và gia đình
+            </h5>
+            <div class="status-item">
+              <label
+                ><input
+                  type="checkbox"
+                  value="Tổ chức một ngày SHCD thay vì một buổi SHCD."
+                  name="solution[]"
+                />
+                <span>Tổ chức một ngày SHCD thay vì một buổi SHCD.</span></label
+              ><br />
+              <label
+                ><input
+                  type="checkbox"
+                  value="Giảm học phí."
+                  name="solution[]"
+                />
+                <span>Giảm học phí.</span></label
+              ><br />
+              <label
+                ><input
+                  type="checkbox"
+                  value="Công khai hạch toán thu, chi hàng năm."
+                  name="solution[]"
+                />
+                <span>Công khai hạch toán thu, chi hàng năm.</span></label
+              ><br />
+              <label
+                ><input
+                  type="checkbox"
+                  value="Công khai kế hoạch sử dụng nguồn thu."
+                  name="solution[]"
+                />
+                <span>Công khai kế hoạch sử dụng nguồn thu.</span></label
+              ><br />
+              <label
+                ><input
+                  type="checkbox"
+                  value="Giảm mức tăng học phí theo lộ trình."
+                  name="solution[]"
+                />
+                <span>Giảm mức tăng học phí theo lộ trình.</span></label
+              ><br />
+              <label
+                ><input
+                  type="checkbox"
+                  value="Công bố chính sách học phí mới sớm hơn ở những lần tiếp
+              theo."
+                  name="solution[]"
+                />
+                <span
+                  >Công bố chính sách học phí mới sớm hơn ở những lần tiếp
+                  theo.</span
+                ></label
+              ><br />
+              <label
+                ><input
+                  type="checkbox"
+                  value="Thiết lập kênh đối thoại 2 chiều phản hồi nhanh."
+                  name="solution[]"
+                />
+                <span
+                  >Thiết lập kênh đối thoại 2 chiều phản hồi nhanh.</span
+                ></label
+              ><br />
+              <label
+                ><input
+                  type="checkbox"
+                  value="Minh bạch, công khai, rõ ràng, chính xác trong việc truyền
+              thông nội bộ và xã hội."
+                  name="solution[]"
+                />
+                <span
+                  >Minh bạch, công khai, rõ ràng, chính xác trong việc truyền
+                  thông nội bộ và xã hội.</span
+                ></label
+              ><br />
+              <label
+                ><input
+                  type="checkbox"
+                  value="Thiết lập kênh đối thoại 2 chiều phản hồi nhanh."
+                  name="solution[]"
+                />
+                <span
+                  >Thiết lập kênh đối thoại 2 chiều phản hồi nhanh.</span
+                ></label
+              ><br />
+              <label
+                ><input
+                  type="checkbox"
+                  value="Giải pháp khác."
+                  name="solution[]"
+                />
+                <span>Giải pháp khác.</span></label
+              >
+            </div>
+          </div>
+          <p class="comments">Ý kiến khác:</p>
+          <textarea rows="5" name="another_idea"></textarea>
+          <div class="btn-block">
+            <button type="submit" href="SurveyForm.php">Gửi</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
