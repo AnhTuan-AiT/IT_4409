@@ -1,0 +1,4 @@
+Sau khi chuyển phương thức từ POST thành GET thì xảy ra lỗi vì
+các giá trị của các trường trong form lúc này nằm trong biến $_GET
+thay vì $_POST nên việc truy cập các giá trị này từ biến $_POST sẽ
+gây ra lỗi
