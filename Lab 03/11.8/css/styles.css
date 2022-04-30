@@ -1,0 +1,34 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : Apr 30, 2022, 11:53:41 AM
+    Author     : builo
+*/
+
+body {
+    margin: 0;
+}
+
+.header {
+  font-family: -apple-system,BlinkMacSystemFont,
+      segoe ui,Roboto,helvetica neue,Arial,noto sans,sans-serif,
+      apple color emoji,segoe ui emoji,segoe ui symbol,noto color emoji;
+  width: 100%;
+  height: 46px;
+  padding: 4px;
+  left: 0;
+  top: 0;
+  margin-bottom: 18px;
+  background: #f0f0d0;
+  color: #444;
+  font: Helvetica;
+  font-size: x-large;
+  font-weight: 700;
+  
+}
+
+.p-small {
+  font: 400 0.875rem/1.5rem "Open Sans", sans-serif;
+}
