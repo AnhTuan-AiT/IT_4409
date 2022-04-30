@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Colors</title>
+    <script type="text/javascript">
+        function black() {
+            document.getElementById("paragraph").style.color = "black";
+        }
+        function red() {
+            document.getElementById("paragraph").style.color = "#f00";
+        }
+        function blue() {
+            document.getElementById("paragraph").style.color = "blue";
+        }
+        function green() {
+            document.getElementById("paragraph").style.color = "#01f201";
+        }
+    </script>
+    <style>
+        #box {
+            background-image: linear-gradient(white, yellow);
+            text-align: center;
+            margin-top: 100px;
+            padding: 15px;
+            display: inline-block;
+        }
+
+        #paragraph {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        button {
+            display: inline-block;
+            text-decoration: none;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            padding: 12px 48px;
+            border-radius: 50px;
+            margin-left: 16px;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        button:hover {
+            opacity: 0.7;
+        }
+
+        #red {
+            background-color: #ff623d;
+        }
+
+        #green {
+            background-color: #71be34;
+        }
+
+        #blue {
+            background-color: #000099;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <div id="boxChild">
+            <button id="red" onmouseover="red()" onmouseout="black()">RED</button>
+            <button id="blue" onmouseover="blue()" onmouseout="black()">BLUE</button>
+            <button id="green" onmouseover="green()" onmouseout="black()">GREEN</button>
+        </div>
+        <p id="paragraph">Write a simple HTML document called colors.html containing three colored links at the top
+            of
+            the page labeled RED, GREEN, and BLUE. Under the links there should be a small paragraph of text (you
+            make this
+            up) with a starting color of BLACK. Using onMouseOver and onMouseOut events of the links, when a user
+            rolls over the each and any of the color labeled links, the color of the text in the paragraph below
+            should
+            change to the color corresponding to the link the user is hovering over. When the user rolls off the
+            link,
+            the color of the text should go back to it's starting color of
+            BLACK.
+        </p>
+    </div>
+</body>
+
+</html>
