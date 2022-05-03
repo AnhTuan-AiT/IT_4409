@@ -1,54 +1,42 @@
 function getCookie(name) {
-  var cookieArr = document.cookie.split(";");
+  let cookies = document.cookie.split(";");
+  let cname = name + "=";
 
-  for (var i = 0; i < cookieArr.length; i++) {
-    var cookiePair = cookieArr[i].split("=");
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i];
 
-    if (name == cookiePair[0].trim()) {
-      return decodeURIComponent(cookiePair[1]);
+    while (cookie.charAt(0) == " ") {
+      cookie = cookie.substring(1);
+    }
+
+    if (cookie.indexOf(cname) == 0) {
+      return decodeURIComponent(cookie.substring(cname.length, cookie.length));
     }
   }
+
   return null;
 }
 
 // ADD BLOG
 function addBlog() {
-  var data = document.myform.textarea.value;
-  if (data == "") {
-    return false;
-  } else {
-    var oldCookie = null; //reset the cookie
-    var cookieValue = "";
-    if (oldCookie != null) {
-      cookieValue = encodeURIComponent(oldCookie + " " + data);
-    } else {
-      cookieValue = encodeURIComponent(data);
-    }
-    var maxAge = "; max-age=" + 1 * 24 * 60 * 60 + ";";
-    document.cookie = "cookie=" + cookieValue + maxAge;
-    document.myform.textarea.value = "";
+  let data = document.myForm.textarea.value;
+
+  if (data.trim() !== "") {
+    let cookieValue = encodeURIComponent(data);
+    const d = new Date();
+    d.setTime(d.getTime() + 1 * 24 * 60 * 60 * 1000);
+    let expires = "expires=" + d.toUTCString();
+
+    document.cookie = "blog=" + cookieValue + ";" + expires;
+    parent.leftFrame.document.body.innerText = data;
   }
+
+  document.myForm.textarea.value = "";
 }
 
 //RETRIEVE BLOG FROM COOKIE
 function loadCookie() {
-  var allCookie = getCookie("cookie");
-  let start = 0;
-  let stop = allCookie.length;
-  let i = 0;
-  while (true) {
-    for (i = start; i < stop; i++) {
-      if (allCookie[i] == " ") break;
-    }
+  var blog = getCookie("blog");
 
-    var tmpCookie = allCookie.substring(start, i);
-    document.writeln(tmpCookie);
-    start = i + 1;
-    if (start >= stop) break;
-  }
-}
-
-//REFRESH THE PAGE
-function refreshPage() {
-    window.parent.location = window.parent.location.href;
+  if (blog !== null) document.body.innerText = blog;
 }
