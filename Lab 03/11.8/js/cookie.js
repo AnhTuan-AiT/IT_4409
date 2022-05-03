@@ -47,3 +47,8 @@ function loadCookie() {
     if (start >= stop) break;
   }
 }
+
+//REFRESH THE PAGE
+function refreshPage() {
+    window.parent.location = window.parent.location.href;
+}
