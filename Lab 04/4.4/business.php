@@ -5,14 +5,14 @@
     <title>Business Registration</title>
 </head>
 <?php
+session_start();
 header('Content-Type: text/html; charset=utf-8');
 $conn = mysqli_connect('localhost', 'root', '123456', 'business_service') or die('Error');
 mysqli_set_charset($conn, "utf8");
-$id = 1;
 $message = '';
 $db = $conn;
 $tableName = "Categories";
-$columns = "Title";
+$columns = ['CategoryID', 'Title'];
 $fetchData = fetch_data($db, $tableName, $columns);
 function fetch_data($db, $tableName, $columns)
 {
@@ -21,8 +21,8 @@ function fetch_data($db, $tableName, $columns)
     } elseif (empty($tableName)) {
         $msg = "Table Name is empty";
     } else {
-
-        $query = "SELECT " . $columns . " FROM $tableName";
+        $columnName = implode(', ', $columns);
+        $query = "SELECT " . $columnName . " FROM $tableName";
         $result = $db->query($query);
 
         if ($result == true) {
@@ -45,22 +45,18 @@ if (isset($_POST['button'])) {
     $telephone = trim($_POST['Telephone']);
     $url = trim($_POST['URL']);
     $sql = "INSERT INTO Businesses(Name, Address, City, Telephone, URL)
-            VALUES ('$name', '$address', '$city', '$telephone', '$url')";
+        VALUES ('$name', '$address', '$city', '$telephone', '$url')";
+    mysqli_query($conn, $sql);
     if (!empty($_POST['category'])) {
         $array = $_POST['category'];
-        foreach($array as $selected) {
-            $sql2 = "SELECT CategoryID FROM Categories WHERE Title = '$selected'";
-            $sql3 = "SELECT BusinessID FROM Businesses";
-            $result1 = $db->query($sql2);
-            $result2 = $db->query($sql3);
-            $row1 = mysqli_fetch_array($result1, MYSQLI_NUM);
+        foreach ($array as $selected) {
+            $sql2 = "SELECT BusinessID FROM Businesses WHERE  Telephone = '$telephone'";
+            $result2 = $db->query($sql2);
             $row2 = mysqli_fetch_array($result2, MYSQLI_NUM);
-            $businessID = sizeof($row2) + 1;
-            $categoryID = $row1;
-            $sql4 = "INSERT INTO Biz_Categories VALUES('$businessID', '$categoryID[0]')";
-            if (mysqli_query($conn, $sql) && mysqli_query($conn, $sql4)) {
-                $message = "Insert success!";
-                $id++;
+            $businessID = $row2;
+            $sql4 = "INSERT INTO Biz_Categories VALUES('$businessID[0]','$selected')";
+            if (mysqli_query($conn, $sql4)) {
+                $message = "Record inserted as show below";
             } else {
                 $message = "Insert fail!";
             }
@@ -69,8 +65,13 @@ if (isset($_POST['button'])) {
         $message = "Please select the category.";
     }
 }
+
 ?>
 <style>
+    * {
+        font-family: arial, sans-serif;
+    }
+
     html,
     body {
         min-height: 100%;
@@ -83,13 +84,13 @@ if (isset($_POST['button'])) {
 
     label,
     h1,
-    span {
-        font-family: arial, sans-serif;
+    p {
         font-weight: 400;
         margin: 15px 0;
     }
 
     .resgistrator {
+        width: 600px;
         box-sizing: border-box;
         border: 2px solid black;
         margin-right: 50px;
@@ -97,24 +98,11 @@ if (isset($_POST['button'])) {
     }
 
     .categories {
-        box-sizing: border-box;
-        margin: 50px 0 0 50px;
-        width: 430px;
-        height: 150px;
-        font-size: large;
-        font-weight: 100;
-        font-family: arial, sans-serif;
+        position: relative;
+        font-family: Arial;
+        margin: 50px;
     }
 
-    .categories-list {
-        height: 100px;
-        width: 400px;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        margin: 18px;
-        padding-bottom: 16px;
-        border: 2px solid black;
-    }
 
     option {
         list-style-type: none;
@@ -127,7 +115,6 @@ if (isset($_POST['button'])) {
         display: inline-block;
         color: black
     }
-
     button {
         width: 150px;
         padding: 10px;
@@ -136,36 +123,78 @@ if (isset($_POST['button'])) {
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
         border-radius: 5px;
-        background-color: #095484;
+        background-color: #3fabda;
         font-size: 16px;
         color: #fff;
         cursor: pointer;
     }
 
+    button:hover {
+        opacity: 0.7;
+    }
+
+    a {
+        width: 150px;
+        padding: 10px;
+        border: none;
+        margin: 50px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        background-color: #3fabda;
+        text-decoration: none;
+        font-size: 16px;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    a:hover {
+        opacity: 0.7;
+    }
+
     input {
-        width: 400px;
-        height: 26px;
-        background-color: #cccccc;
-        margin-bottom: 5px;
+        width: 70%;
+        height: auto;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        padding: 7px 0px;
+    }
+
+    input:focus {
+        outline-width: 1px;
+        outline-color: #3fabda;
     }
 </style>
 
 <body>
     <h1>Business Registratiton</h1>
-    <h2><?php echo $message ?></h2>
-    <span>Click on one, or control click on multiple categories</span>
+    <p><?php echo $message ?></p>
+
     <?php echo $deleteMsg ?? ''; ?>
 
     <div class="container">
         <div class="categories">
+            <?php if (isset($_POST['category'])) { ?>
+                <p>Selected category values are highlighted</p>
+            <?php } else { ?>
+
+                <p>Click one, or control click on multiple categories</p>
+            <?php } ?>
             <form method="post">
-                <select name="category" class="categories-list" multiple size=4>
+                <select name="category[]" class="categories-list" multiple size=4>
                     <?php
                     if (is_array($fetchData)) {
+                        $array = [];
+                        if (isset($_POST['category'])) {
+                            $array = $_POST['category'];
+                        }
+                        foreach ($fetchData as $data) { ?>
+                            <?php if (in_array($data['CategoryID'], $array)) { ?>
 
-                        foreach ($fetchData as $data) {
-                    ?>
-                            <option value="<?php echo $data['Title'] ?>"><?php echo $data['Title'] ?? ''; ?></option>
+                                <option selected="true" value="<?php echo $data['CategoryID'] ?>"><?php echo $data['Title'] ?? ''; ?></option>
+                            <?php  } else { ?>
+                                <option value="<?php echo $data['CategoryID'] ?>"><?php echo $data['Title'] ?? ''; ?></option>
+                            <?php } ?>
                         <?php
                         }
                     } else { ?>
@@ -175,20 +204,25 @@ if (isset($_POST['button'])) {
                             </td>
                         <tr>
                         <?php
-                    } ?>
+                    }
+                        ?>
                 </select>
         </div>
         <div class="resgistrator">
             <ul>
-                <li><label>Business Name: </label> <input type="text" name="Name" value=""></li>
-                <li><label>Address: </label> <input type="text" name="Address" value=""></li>
-                <li><label>City: </label> <input type="text" name="City" value=""></li>
-                <li><label>Telephone: </label> <input type="text" name="Telephone" value=""></li>
-                <li><label>URL: </label> <input type="text" name="URL" value=""></li>
+                <li><label>Business Name: </label> <input type="text" name="Name" value="<?php echo isset($_POST['Name']) ? htmlspecialchars($_POST['Name'], ENT_QUOTES) : ''; ?>"></li>
+                <li><label>Address: </label> <input type="text" name="Address" value="<?php echo isset($_POST['Address']) ? htmlspecialchars($_POST['Address'], ENT_QUOTES) : ''; ?>"></li>
+                <li><label>City: </label> <input type="text" name="City" value="<?php echo isset($_POST['City']) ? htmlspecialchars($_POST['City'], ENT_QUOTES) : ''; ?>"></li>
+                <li><label>Telephone: </label> <input type="text" name="Telephone" value="<?php echo isset($_POST['Telephone']) ? htmlspecialchars($_POST['Telephone'], ENT_QUOTES) : ''; ?>"></li>
+                <li><label>URL: </label> <input type="text" name="URL" value="<?php echo isset($_POST['URL']) ? htmlspecialchars($_POST['URL'], ENT_QUOTES) : ''; ?>"></li>
             </ul>
         </div>
     </div>
-    <button type="submit" name="button" value="Button">Add Business</button>
+    <?php if (isset($_POST['category'])) { ?>
+        <a href="http://localhost:3000/business.php">Add Another Business </a>
+    <?php } else { ?>
+        <button type="submit" name="button" value="Button">Add Business</button>
+    <?php } ?>
     </form>
 </body>
 
