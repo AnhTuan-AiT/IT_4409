@@ -26,7 +26,7 @@
             display: inline-block;
             cursor: pointer;
             border-radius: 5px;
-            border: 1px solid;
+            border: 0px;
             color: rgba(0, 0, 0, 0.87);
             background-color: rgba(10, 110, 194, 0.3);
             font-weight: bold;
@@ -34,7 +34,6 @@
             line-height: 1.75;
             letter-spacing: 0.02857em;  
             text-transform: uppercase;
-            opacity: 0.8;
         }
         
         .outlineButton {
@@ -54,7 +53,7 @@
         }
         
         .containedButton:hover {
-            background-color: rgba(10, 110, 194, 0.7);
+            background-color: rgba(144, 202, 249, 0.5);
             transition: 0.7;
         }
         
