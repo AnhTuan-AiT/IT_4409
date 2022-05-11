@@ -5,6 +5,7 @@
     <title>Bussiness List</title>
 </head>
 <?php
+
 header('Content-Type: text/html; charset=utf-8');
 $conn = mysqli_connect('localhost', 'root', '123456', 'business_service') or die('Error');
 $db = $conn;
@@ -18,7 +19,7 @@ function fetch_data1($db, $tableName1, $columns1)
     } elseif (empty($tableName1)) {
         $msg = "Table Name is empty";
     } else {
-        $query = "SELECT " . $columns1 . " FROM $tableName1";
+        $query = "SELECT * FROM $tableName1";
         $result = $db->query($query);
 
         if ($result == true) {
@@ -34,41 +35,28 @@ function fetch_data1($db, $tableName1, $columns1)
     }
     return $msg;
 }
+
 $tableName3 = "Biz_Categories";
 $columns3 = ['BusinessID', 'CategoryID'];
-$fetchData3 = fetch_data3($db, $tableName3, $columns3);
+if(isset($_GET["catID"])){
+$selected = htmlspecialchars($_GET["catID"]);
+}
+else{
+    $selected = '';
+}
 
-function fetch_data3($db, $tableName3, $columns3)
-{
-    $msg = '';
-    if (empty($db)) {
-        $msg = "Database connection error";
-    } elseif (empty($columns3) || !is_array($columns3)) {
-        $msg = "Columns Name must be defined in an indexed array";
-    } elseif (empty($tableName3)) {
-        $msg = "Table Name is empty";
+$query = "SELECT b.*, bc.* FROM Businesses b, Biz_Categories bc, Categories c
+            WHERE b.BusinessID = bc.BusinessID and
+            c.CategoryID = bc.CategoryID and
+            c.CategoryID= '$selected'";
+$result = $db->query($query);
+if ($result == true) {
+    if ($result->num_rows > 0) {
+        $row = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $msg = $row;
     } else {
-
-        if (isset($_POST['button'])) {
-            $selected = $_POST['button'];
-            $query = "SELECT b.*, bc.* FROM Businesses b, Biz_Categories bc, Categories c
-                    WHERE b.BusinessID = bc.BusinessID and
-                        c.CategoryID = bc.CategoryID and
-                        c.Title = '$selected'";
-            $result = $db->query($query);
-            if ($result == true) {
-                if ($result->num_rows > 0) {
-                    $row = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                    $msg = $row;
-                } else {
-                    $msg = "No Data Found";
-                }
-            } else {
-                $msg = mysqli_error($db);
-            }
-        }
+        $msg = "No Data Found";
     }
-    return $msg;
 }
 ?>
 <style>
@@ -105,6 +93,7 @@ function fetch_data3($db, $tableName3, $columns3)
     tr:nth-child(even) {
         background-color: #dddddd;
     }
+
     button {
         border: none;
         background-color: transparent;
@@ -114,7 +103,8 @@ function fetch_data3($db, $tableName3, $columns3)
         cursor: pointer;
         transition: opacity 0.2s ease;
     }
-    button:hover{
+
+    button:hover {
         opacity: 0.5;
     }
 </style>
@@ -129,14 +119,14 @@ function fetch_data3($db, $tableName3, $columns3)
                         <th>Click on a Category to find bussiness listing</th>
                     </tr>
                 </thead>
-                <form method="post">
+                <form method="post" name="catID">
                     <tbody>
                         <?php
                         if (is_array($fetchData1)) {
                             foreach ($fetchData1 as $data) {
                         ?>
                                 <tr>
-                                    <td><button type="submit" name="button" value="<?php echo $data['Title'] ?? ''; ?>"><?php echo $data['Title'] ?? ''; ?></button></td>
+                                    <td><a type="submit" href="http://localhost:3000/bussiness-list.php?catID=<?php echo $data['CategoryID'] ?>"><?php echo $data['Title'] ?? ''; ?></a></td>
                                 </tr>
                             <?php
                             }
@@ -155,8 +145,8 @@ function fetch_data3($db, $tableName3, $columns3)
         <div class="biz_categories">
             <table>
                 <?php
-                if (is_array($fetchData3)) {
-                    foreach ($fetchData3 as $data) {
+                if (is_array($msg)) {
+                    foreach ($msg as $data) {
                 ?>
                         <tr>
                             <td><?php echo $data['BusinessID'] ?? ''; ?></td>
@@ -172,7 +162,7 @@ function fetch_data3($db, $tableName3, $columns3)
                     }
                 } else { ?>
                     <td colspan="8">
-                        <?php echo $fetchData3; ?>
+                        <?php echo $msg; ?>
                     </td>
                 <?php
                 }
