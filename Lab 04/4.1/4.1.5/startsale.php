@@ -74,8 +74,9 @@
             Screw Driver<input type="radio" name="product_desc" value="Screw Driver">
             Wrench<input type="radio" name="product_desc" value="Wrench">
         </div>
-        <input class="containedButton" type="submit" value="Click To Submit">
-        <input class="outlineButton" type="reset" value="Reset">
+        
+        <button class="containedButton" type="submit" value="Click To Submit">Click To Submit</button>
+        <button class="outlineButton" type="reset" value="Reset">Reset</button>
     </form>
     <?php
     $server = 'localhost';
