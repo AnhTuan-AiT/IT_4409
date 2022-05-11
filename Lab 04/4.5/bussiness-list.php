@@ -72,8 +72,8 @@ function fetch_data3($db, $tableName3, $columns3)
 }
 ?>
 <style>
-    h1 {
-        font-family: arial, sans-serif;
+    * {
+        font-family: Arial, sans-serif;
     }
 
     .container {
@@ -83,7 +83,6 @@ function fetch_data3($db, $tableName3, $columns3)
 
     .categories {
         float: left;
-        font-family: arial, sans-serif;
         border-collapse: collapse;
     }
 
@@ -91,13 +90,32 @@ function fetch_data3($db, $tableName3, $columns3)
         float: right;
     }
 
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
     td,
     th {
-        font-family: Arial, sans-serif;
         border: 1px solid #dddddd;
         text-align: left;
         padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+    button {
+        border: none;
+        background-color: transparent;
+        text-decoration: underline;
         font-size: large;
+        color: #000079;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+    }
+    button:hover{
+        opacity: 0.5;
     }
 </style>
 

@@ -55,7 +55,8 @@
     <script type="text/javascript">
     </script>
     <style>
-        h1, h2{
+        h1,
+        h2 {
             font-family: arial, sans-serif;
         }
 
@@ -68,9 +69,14 @@
         input {
             width: 100%;
             height: auto;
-            border: 1px solid #ccc;
+            border: 2px solid #ccc;
             border-radius: 4px;
             padding: 7px 0px;
+        }
+
+        input:focus {
+            outline-width: 1px;
+            outline-color: #3fabda;
         }
 
         td,
@@ -85,7 +91,17 @@
         }
 
         button {
-            margin: 10px;
+            width: 150px;
+            padding: 10px;
+            border: none;
+            margin: 10px 0px 0px 10px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            background-color: #095484;
+            font-size: 16px;
+            color: #fff;
+            cursor: pointer;
         }
     </style>
 </head>
