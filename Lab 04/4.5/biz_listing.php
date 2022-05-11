@@ -126,7 +126,7 @@ if ($result == true) {
                             foreach ($fetchData1 as $data) {
                         ?>
                                 <tr>
-                                    <td><a type="submit" href="http://localhost:3000/bussiness-list.php?catID=<?php echo $data['CategoryID'] ?>"><?php echo $data['Title'] ?? ''; ?></a></td>
+                                    <td><a type="submit" href="http://localhost:3000/biz_listing.php?catID=<?php echo $data['CategoryID'] ?>"><?php echo $data['Title'] ?? ''; ?></a></td>
                                 </tr>
                             <?php
                             }
