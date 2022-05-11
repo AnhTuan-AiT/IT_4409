@@ -17,16 +17,19 @@
         }
         
         input {
+            outline: 1px solid black;
+            border: 2px solid transparent;
             border-radius: 6px;
             height: 2.5em;
             font-size: 16px;
+            box-sizing: border-box;
         }
-            
+       
         input:focus {
-            outline: 2px;
-            outline-style: solid;
-            outline-color: #1976d2;
+            outline: 0px solid transparent;
+            border: 2px solid rgb(25, 118, 210);
             border-radius: 5px;
+            box-sizing: border-box;
         }
         
         .containedButton {
