@@ -3,17 +3,6 @@
 <head>
     <title>Inventory Management</title>
     <style>
-        .button {
-            display: inline-block;
-            padding: 12px 18px;
-            cursor: pointer;
-            border-radius: 5px;
-            background-color: #f0f0d0;
-            font-size: 13px;
-            font-weight: bold;
-            color: #444;
-        }
-
         table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
@@ -32,6 +21,48 @@
             margin: 8px;
             font-family: arial, sans-serif;
         }
+        
+        .containedButton {
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid;
+            color: rgba(0, 0, 0, 0.87);
+            background-color: rgba(10, 110, 194, 0.3);
+            font-weight: bold;
+            padding: 6px 16px;
+            line-height: 1.75;
+            letter-spacing: 0.02857em;  
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+        
+        .outlineButton {
+            display: inline-block;
+            padding: 6px 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid rgba(10, 110, 194, 1);
+            color: rgba(10, 110, 194, 1);
+            background-color: transparent;
+            font-size: 13px;
+            font-weight: bold;
+            line-height: 1.75;
+            letter-spacing: 0.02857em; 
+            text-transform: uppercase;
+            
+        }
+        
+        .containedButton:hover {
+            background-color: rgba(10, 110, 194, 0.7);
+            transition: 0.7;
+        }
+        
+        .outlineButton:hover {
+            color: white;
+            background-color: rgba(10, 110, 194, 0.5);
+            transition: 0.7;
+        }
     </style>
 </head>
 
@@ -43,8 +74,8 @@
             Screw Driver<input type="radio" name="product_desc" value="Screw Driver">
             Wrench<input type="radio" name="product_desc" value="Wrench">
         </div>
-        <input class="button" type="submit" value="Click To Submit">
-        <input class="button" type="reset" value="Reset">
+        <input class="containedButton" type="submit" value="Click To Submit">
+        <input class="outlineButton" type="reset" value="Reset">
     </form>
     <?php
     $server = 'localhost';
