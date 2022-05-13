@@ -81,13 +81,9 @@
 
         td,
         th {
-            border: 1px solid #dddddd;
             text-align: left;
             padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
+            border: 1px solid #515151;
         }
 
         button {
@@ -98,7 +94,7 @@
             -webkit-border-radius: 5px;
             -moz-border-radius: 5px;
             border-radius: 5px;
-            background-color: #095484;
+            background-color: #3fabda;
             font-size: 16px;
             color: #fff;
             cursor: pointer;

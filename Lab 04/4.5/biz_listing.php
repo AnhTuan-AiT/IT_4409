@@ -38,10 +38,9 @@ function fetch_data1($db, $tableName1, $columns1)
 
 $tableName3 = "Biz_Categories";
 $columns3 = ['BusinessID', 'CategoryID'];
-if(isset($_GET["catID"])){
-$selected = htmlspecialchars($_GET["catID"]);
-}
-else{
+if (isset($_GET["catID"])) {
+    $selected = htmlspecialchars($_GET["catID"]);
+} else {
     $selected = '';
 }
 
@@ -64,6 +63,12 @@ if ($result == true) {
         font-family: Arial, sans-serif;
     }
 
+    p {
+        font-size: 50px;
+        font-weight: 600;
+        margin-left: 200px;
+    }
+
     .container {
         display: flex;
     }
@@ -78,22 +83,6 @@ if ($result == true) {
         float: right;
     }
 
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    td,
-    th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
-
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
-
     button {
         border: none;
         background-color: transparent;
@@ -103,6 +92,22 @@ if ($result == true) {
         cursor: pointer;
         transition: opacity 0.2s ease;
     }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid #333;
+    }
+
+    td,
+    th {
+        border: 1px solid #333;
+        border-left: none;
+        border-right: none;
+        text-align: left;
+        padding: 8px;
+    }
+
 
     button:hover {
         opacity: 0.5;
@@ -161,9 +166,7 @@ if ($result == true) {
                     <?php
                     }
                 } else { ?>
-                    <td colspan="8">
-                        <?php echo $msg; ?>
-                    </td>
+                    <p> <?php echo $msg; ?> </p>
                 <?php
                 }
                 ?>

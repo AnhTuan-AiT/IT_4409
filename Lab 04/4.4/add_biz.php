@@ -81,7 +81,7 @@ if (isset($_POST['button'])) {
         display: flex;
         justify-content: space-between;
     }
-
+    
     label,
     h1,
     p {
@@ -103,17 +103,33 @@ if (isset($_POST['button'])) {
         margin: 50px;
     }
 
+    a {
+        margin: 50px;
+    }
 
     option {
         list-style-type: none;
         margin-bottom: 5px;
         font-size: large;
     }
+    
+    option:checked {
+        background-color: #1976d2;
+    }
+
+    option::selection {
+        background-color: red;
+        color: white;
+    }
+
 
     label {
         width: 120px;
         display: inline-block;
         color: black
+    }
+    ul {
+        list-style-type: none;
     }
     button {
         width: 150px;
@@ -133,21 +149,6 @@ if (isset($_POST['button'])) {
         opacity: 0.7;
     }
 
-    a {
-        width: 150px;
-        padding: 10px;
-        border: none;
-        margin: 50px;
-        -webkit-border-radius: 5px;
-        -moz-border-radius: 5px;
-        border-radius: 5px;
-        background-color: #3fabda;
-        text-decoration: none;
-        font-size: 16px;
-        color: #fff;
-        cursor: pointer;
-    }
-
     a:hover {
         opacity: 0.7;
     }
@@ -162,7 +163,7 @@ if (isset($_POST['button'])) {
 
     input:focus {
         outline-width: 1px;
-        outline-color: #3fabda;
+        outline-color: #1976d2;
     }
 </style>
 
@@ -219,7 +220,7 @@ if (isset($_POST['button'])) {
         </div>
     </div>
     <?php if (isset($_POST['category'])) { ?>
-        <a href="http://localhost:3000/business.php">Add Another Business </a>
+        <a href="http://localhost:3000/add_biz.php">Add Another Business </a>
     <?php } else { ?>
         <button type="submit" name="button" value="Button">Add Business</button>
     <?php } ?>
