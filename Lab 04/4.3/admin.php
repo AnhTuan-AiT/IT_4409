@@ -83,7 +83,10 @@
         th {
             text-align: left;
             padding: 8px;
-            border: 1px solid #515151;
+            border: 1px solid #d5d5d5;
+            border-left: none;
+            border-right: none;
+            border-top: none;
         }
 
         button {

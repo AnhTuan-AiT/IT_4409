@@ -96,14 +96,16 @@ if ($result == true) {
     table {
         border-collapse: collapse;
         width: 100%;
-        border: 1px solid #333;
     }
-
+    .category{
+        border: 1px solid #d5d5d5;
+    }
     td,
     th {
-        border: 1px solid #333;
+        border: 1px solid #d5d5d5;
         border-left: none;
         border-right: none;
+        border-top: none;
         text-align: left;
         padding: 8px;
     }
@@ -118,7 +120,7 @@ if ($result == true) {
     <h1>Business Listing</h1>
     <div class="container">
         <div class="categoies">
-            <table>
+            <table class="category">
                 <thead>
                     <tr>
                         <th>Click on a Category to find bussiness listing</th>
