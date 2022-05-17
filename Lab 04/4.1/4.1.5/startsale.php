@@ -3,18 +3,21 @@
 <head>
     <title>Inventory Management</title>
     <style>
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 50%;
-            margin-bottom: 16px;
-        }
-
         td,
         th {
-            border: 1px, solid;
             text-align: left;
-            padding: 6px;
+            padding: 8px;
+            border: 1px solid #d5d5d5;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border: none;
+            width: 50%;
+            margin: 16px;
         }
 
         div {
@@ -33,6 +36,7 @@
             padding: 6px 16px;
             line-height: 1.75;
             letter-spacing: 0.02857em; 
+            box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
         }
         
         .outlineButton {
@@ -51,13 +55,33 @@
         
         .containedButton:hover {
             background-color: #1976d2;
-            opacity: 0.7;
+            box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
             transition: 0.7;
         }
         
         .outlineButton:hover {
             transition: 0.7;
             border: 1px solid rgba(25, 118, 210);
+        }
+        
+        .radioButton {
+            background-color: #fff;
+            border:2px solid white;
+            box-shadow:0 0 0 1px #000;
+            appearance:none;
+            border-radius:50%;
+            width:12px;
+            height:12px;
+            background-color:#fff;
+            transition:all ease-in 0.2s;
+            cursor: pointer;
+            opacity: 0.4;
+        }
+        
+        .radioButton:checked {
+            background-color: #1976d2;
+            box-shadow:0 0 0 1px #1976d2;
+            opacity: 1;
         }
     </style>
 </head>

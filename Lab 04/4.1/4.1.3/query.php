@@ -10,14 +10,17 @@
 
         td,
         th {
-            border: 1px, solid;
             text-align: left;
-            padding: 6px;
+            padding: 8px;
+            border: 1px solid #d5d5d5;
+            border-left: none;
+            border-right: none;
+            border-top: none;
         }
 
         table {
             font-family: arial, sans-serif;
-            border-collapse: collapse;
+            border: none;
             width: 50%;
             margin: 16px;
         }
