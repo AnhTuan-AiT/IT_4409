@@ -98,9 +98,6 @@ if ($result == true) {
         border-collapse: collapse;
         width: 100%;
     }
-    .category{
-        border: 1px solid #d5d5d5;
-    }
     td,
     th {
         border: 1px solid #d5d5d5;
