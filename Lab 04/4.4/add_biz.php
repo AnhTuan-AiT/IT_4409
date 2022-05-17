@@ -115,6 +115,7 @@ if (isset($_POST['button'])) {
     
     option:checked {
         background-color: #1976d2;
+        color: #fff;
     }
 
     option::selection {
@@ -178,7 +179,6 @@ if (isset($_POST['button'])) {
             <?php if (isset($_POST['category'])) { ?>
                 <p>Selected category values are highlighted</p>
             <?php } else { ?>
-
                 <p>Click one, or control click on multiple categories</p>
             <?php } ?>
             <form method="post">
