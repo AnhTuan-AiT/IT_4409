@@ -66,11 +66,12 @@ if ($result == true) {
     p {
         font-size: 50px;
         font-weight: 600;
-        margin-left: 200px;
+        margin-right: 400px;
     }
 
     .container {
         display: flex;
+        justify-content: space-between;
     }
 
 

@@ -192,7 +192,7 @@ if (isset($_POST['button'])) {
                         foreach ($fetchData as $data) { ?>
                             <?php if (in_array($data['CategoryID'], $array)) { ?>
 
-                                <option selected="true" value="<?php echo $data['CategoryID'] ?>"><?php echo $data['Title'] ?? ''; ?></option>
+                                <option selected="true" style="color:#fff" value="<?php echo $data['CategoryID'] ?>"><?php echo $data['Title'] ?? ''; ?></option>
                             <?php  } else { ?>
                                 <option value="<?php echo $data['CategoryID'] ?>"><?php echo $data['Title'] ?? ''; ?></option>
                             <?php } ?>
