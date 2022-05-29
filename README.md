@@ -102,5 +102,11 @@ Xem kết quả:
 
   - Mở file <b>biz_listing.php</b> bằng PHP server.
   - Chọn một Category ở bảng bên trái.
+## Hướng dẫn cài đặt và chạy Lab 05:
+- 5.1
+  - Mở file <b>index.php<b> bằng PHP Server.
+  - Xem kết quả trong trình duyệt tại URL: http://localhost:3000/index.php
+  - Chọn một Title ở trong bảng
+  - Xem kết quả trong trình duyệt tại URL: http://localhost:3000/index.php?book=title_ban_chon, ví dụ http://localhost:3000/index.php?book=Jungle%20Book
 
 Mọi khó khăn trong quá trình cài đặt và chạy project, vui lòng liên hệ qua email: anhtuan0126104@gmail.com để được hỗ trợ.
