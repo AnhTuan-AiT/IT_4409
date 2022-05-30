@@ -70,7 +70,7 @@ Các tệp cần mở:
 
 Bạn cần có ZenServer cài đặt sẵn trên máy. Khi mọi thứ đã sẵn sàng, thực hiện theo các bước sau:
 
-- Trong Visual Studio Code, cài đặt extension PHP Server.
+- Trong Visual Studio Code, cài đặt extension <b>PHP Server</b>.
 - Tạo CSDL
   - Trong trình duyệt, truy cập: http://localhost:10081/ZendServer/ và đăng nhập.
   - Trên trang <b>Getting Started</b>, click vào biểu tượng phpMyAdmin để triển khai phpMyAdmin.
@@ -102,11 +102,12 @@ Xem kết quả:
 
   - Mở file <b>biz_listing.php</b> bằng PHP server.
   - Chọn một Category ở bảng bên trái.
+
 ## Hướng dẫn cài đặt và chạy Lab 05:
-- 5.1
-  - Mở file <b>index.php<b> bằng PHP Server.
-  - Xem kết quả trong trình duyệt tại URL: http://localhost:3000/index.php
-  - Chọn một Title ở trong bảng
-  - Xem kết quả trong trình duyệt tại URL: http://localhost:3000/index.php?book=title_ban_chon, ví dụ http://localhost:3000/index.php?book=Jungle%20Book
+
+5.1
+
+- Mở file <b>MVC-1/index.php</b> bằng PHP Server.
+- Xem kết quả trong trình duyệt tại URL: http://localhost:3000/index.php
 
 Mọi khó khăn trong quá trình cài đặt và chạy project, vui lòng liên hệ qua email: anhtuan0126104@gmail.com để được hỗ trợ.
