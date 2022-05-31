@@ -105,9 +105,44 @@ Xem kết quả:
 
 ## Hướng dẫn cài đặt và chạy Lab 05:
 
-5.1
+### 5.1
 
 - Mở file <b>MVC-1/index.php</b> bằng PHP Server.
 - Xem kết quả trong trình duyệt tại URL: http://localhost:3000/index.php
+
+### 5.2
+
+Bạn cần cài dặt sẵn XAMPP trên máy. Copy hai thư mục <b>todo</b> và <b>e-commerce</b> vào thư mục <b>rooPath\htdocs</b>. Khi mọi thứ đã sẵn sàng, thực hiện theo các bước sau:
+
+- Project todo
+
+  - Tạo cơ sở dữ liệu trong XAMPP Control Panel:
+    - Khởi động Apache, MySQL (nếu chưa khởi động).
+    - Click nút <b>Admin</b> của mô đun MySQL, sau đó, phpmyadmin sẽ tự động được mở trong trình duyệt.
+    - Trên giao diện, chọn tab <b>Databases</b>.
+    - Điền <b>todo</b> vào trường <b>Database name</b> và click nút <b>Create</b>.
+    - Sau đó, trong danh sách cơ sở dữ liệu hiển thị ở bên trái, click vào <b>todo</b>
+    - Chọn tab <b>Check privileges</b>.
+    - Click vào <b>Add user account</b>.
+    - Điền <b>vubl</b> vào trường User name, <b>vubl</b> vào trường Password.
+    - Ở phần <b>Global privileges</b>, tích vào <b>Check all</b>.
+    - Click nút <b>Go</b> để hoàn tất.
+
+  - Import file .sql ở trong thư mục rooPath/htdocs/todo/db/
+    - Chọn tab <b>Databases</b>.
+    - Chọn cơ sơ dữ liệu <b>todo</b>.
+    - Chọn tab <b>Import</b>.
+    - Click nút <b>Choose file</b> và tìm file todo.sql theo đường dẫn <b>rooPath/htdocs/todo/db/</b>.
+    - Click nút <b>Go</b> để hoàn tất
+
+  - Xem kết quả trong trình duyệt tại URL: http://localhost/todo/items/viewall
+
+- Project e-commerce
+
+  - Tạo cơ sở dữ liệu như project <b>todo</b>, điền <b>e-commerce</b> vào trường <b>Database name</b> thay vì todo. Không cần thực hiện lại các bước từ <b>Add user account</b> vì tài khoản đã được lập trước đó.
+  - Import file .sql trong thư mục rooPath/htdocs/e-commerce/db/
+  - Xem kết quả trong trình duyệt tại URL: http://localhost/e-commerce/categories
+
+- ***Lưu ý***: Nếu đã có sẵn user MySQL, bạn có thể phân quyền truy cập thư mục đó cho user này qua các file config.php trong thư mục config tương ứng của các project tương ứng.
 
 Mọi khó khăn trong quá trình cài đặt và chạy project, vui lòng liên hệ qua email: anhtuan0126104@gmail.com để được hỗ trợ.
