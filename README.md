@@ -143,6 +143,6 @@ Bạn cần cài dặt sẵn XAMPP trên máy. Copy hai thư mục <b>todo</b> v
   - Import file .sql trong thư mục rooPath/htdocs/e-commerce/db/
   - Xem kết quả trong trình duyệt tại URL: http://localhost/e-commerce/categories
 
-- ***Lưu ý***: Nếu đã có sẵn user MySQL, bạn có thể phân quyền truy cập thư mục đó cho user này qua các file config.php trong thư mục config tương ứng của các project tương ứng.
+- ***Lưu ý***: Nếu đã có sẵn user MySQL, bạn có thể phân quyền truy cập thư mục đó cho user này qua các file config.php trong thư mục config của các project tương ứng.
 
 Mọi khó khăn trong quá trình cài đặt và chạy project, vui lòng liên hệ qua email: anhtuan0126104@gmail.com để được hỗ trợ.
