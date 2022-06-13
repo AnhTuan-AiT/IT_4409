@@ -151,4 +151,8 @@ Bạn cần có XAMPP cài đặt sẵn trên máy. Khi mọi thứ đã sẵn s
 
 **_Lưu ý_**: Nếu đã có sẵn user MySQL, bạn có thể phân quyền truy cập thư mục đó cho user qua các file config.php trong thư mục config của các project tương ứng.
 
+## Hướng dẫn cài đặt và chạy Lab 06:
+
+Mở các file <b>.html</b> trong trình duyệt để xem kết quả.
+
 Mọi khó khăn trong quá trình cài đặt và chạy project, vui lòng liên hệ qua email: anhtuan0126104@gmail.com để được hỗ trợ.
