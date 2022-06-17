@@ -1,0 +1,16 @@
+{
+  "name": "class-management",
+  "version": "1.0.0",
+  "description": "Backend for class management app",
+  "main": "app.js",
+  "dependencies": {
+    "nodemon": "^2.0.16"
+  },
+  "type": "module",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "AnhTuan-AiT <anhtuan0126104@gmail.com>",
+  "license": "MIT"
+}
