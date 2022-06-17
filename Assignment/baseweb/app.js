@@ -7,7 +7,11 @@ export const baseURL = `http://${hostname}:${port}/`;
 
 // create server
 const server = http.createServer((req, res) => {
-  router(req, res);
+  try {
+    router(req, res);
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 // start server on port 3000
