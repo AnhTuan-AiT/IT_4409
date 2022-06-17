@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Placemark>
+    <name>Phố Quan Nhân, Phường Nhân Chính</name>
+		<description>Home address. Example 7.3. 
+		Web Service and E-commerce course.</description>
+    <Point>
+       <coordinates>105.812568264246,21.0053989590395,0</coordinates>
+    </Point>
+  </Placemark>
+</kml>

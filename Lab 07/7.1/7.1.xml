@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<class>
+	<student>
+		<student_id>20194410</student_id>
+		<name>Bùi Long Vũ</name>
+		<age>21</age>
+		<major>Computer Engineering</major>
+		<class>IT2-02-K64</class>
+		<address>Hà Nội</address>		
+	</student>
+</class>
