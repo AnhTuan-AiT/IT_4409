@@ -155,4 +155,16 @@ Bạn cần có XAMPP cài đặt sẵn trên máy. Khi mọi thứ đã sẵn s
 
 Mở các file <b>.html</b> trong trình duyệt để xem kết quả.
 
+## Hướng dẫn cài đặt và chạy Lab 07:
+
+### 7.3
+
+### 7.5.3, 7.5.5
+
+Xem các file <b>.docx</b>
+
+### Các phần khác
+
+Mở các file <b>.html</b>, <b>.xml</b> trong trình duyệt để xem kết quả.
+
 Mọi khó khăn trong quá trình cài đặt và chạy project, vui lòng liên hệ qua email: anhtuan0126104@gmail.com để được hỗ trợ.
