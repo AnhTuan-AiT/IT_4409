@@ -4,7 +4,8 @@
   "description": "Backend for class management app",
   "main": "app.js",
   "dependencies": {
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "pg": "^8.7.3"
   },
   "type": "module",
   "devDependencies": {},

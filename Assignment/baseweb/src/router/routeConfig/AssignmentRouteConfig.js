@@ -5,7 +5,7 @@ const controller = new AssignmentController();
 export const assignmentRouteConfig = [
   {
     method: HTTP_METHOD.GET,
-    path: "/hello-world",
-    handler: controller.helloWorld,
+    path: "/student",
+    handler: controller.getAssignDetail,
   },
 ];
