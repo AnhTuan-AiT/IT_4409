@@ -3,7 +3,7 @@ import { pool } from "../config/db.js";
 export class SemesterRepo{
     constructor() {}
     save = async() => {
-            
+        
     }
 
     findById = async(semesterId) => {

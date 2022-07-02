@@ -72,9 +72,12 @@ export class AssignmentController {
       closeTime: req.body.closeTime,
       subject: req.body.subject
     }
-    
-    this.assignmentService.updateAssignment(assignmentId, assign).then(assign => {
-      res.status(200).json({ assignment: assign })
+
+    this.assignmentService.updateAssignment(assignmentId, assign).then(assignmentId, asign => {
+      res.status(200).json({
+        assignmentId: assignmentId,
+        assignment: assign
+      })
     }).catch(err => {
       res.status(500).json({ error: err.message })
     });

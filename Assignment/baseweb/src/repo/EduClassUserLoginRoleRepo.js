@@ -4,7 +4,7 @@ export class EduClassUserLoginRoleRepo {
     constructor(){}
 
     save = async() => {
-
+        
     }
 
     findAllByUserLoginIdAndThruDate = async(userLoginId, thruDate) => {

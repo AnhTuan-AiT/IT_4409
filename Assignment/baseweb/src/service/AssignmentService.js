@@ -3,6 +3,8 @@ import { AssignmentSubmissionRepo } from "../repo/AssignmentSubmissionRepo.js";
 import { ClassRepo } from "../repo/ClassRepo.js";
 import { EduClass } from "../entity/EduClass.js";
 import { Assignment } from "../entity/Assignment.js";
+import { ResponseFirstType } from "../exception/ResponseFirstType.js";
+import { SimpleResponse } from "../exception/SimpleResponse.js";
 
 export class AssignmentService {
   constructor() {
@@ -87,11 +89,8 @@ export class AssignmentService {
     try {
       storageService.createFolder(assignment.getId().toString());
     } catch (error) {
-      log.info("ERROR in method createAssignment()");
-      error.printStackTrace();
-      throw new StorageException("Could not initialize storage", error);
+      console.log("ERROR in method createAssignment()");
     }
-
     return res;
   }
 
