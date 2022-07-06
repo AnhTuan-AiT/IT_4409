@@ -1,22 +1,30 @@
 import { pool } from "../config/db.js";
 
 export class EduClassUserLoginRoleRepo {
-    constructor(){}
+  constructor() {}
 
-    save = async() => {
-        
-    }
+  save = async ({ classId, userLoginId, roleId }) => {
+    const text = `insert
+	into
+	edu_class_user_login_role (class_id,
+	user_login_id,
+	role_id)
+values($1,$2,$3)
+`;
 
-    findAllByUserLoginIdAndThruDate = async(userLoginId, thruDate) => {
-        const text = `select 
-        e 
+    const values = [classId, userLoginId, roleId];
+    return pool.query(text, values);
+  };
+
+  findAllByUserLoginIdAndThruDate = async (userId, thruDate) => {
+    const text = `select 
+        * 
     from 
-        EduClassUserLoginRole e 
+        edu_class_user_login_role e 
     where 
-        e.userLoginId = ?1 
-        and e.thruDate = ?2`;
+        e.user_login_id = $1`;
 
-        const values = [userLoginId, thruDate];
-        return pool.query(text, values);
-    }
+    const values = [userId];
+    return pool.query(text, values);
+  };
 }

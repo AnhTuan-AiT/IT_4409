@@ -1,10 +1,10 @@
 import { AssignmentRepo } from "../repo/AssignmentRepo.js";
 import { AssignmentSubmissionRepo } from "../repo/AssignmentSubmissionRepo.js";
 import { ClassRepo } from "../repo/ClassRepo.js";
-import { EduClass } from "../entity/EduClass.js";
-import { Assignment } from "../entity/Assignment.js";
-import { ResponseFirstType } from "../exception/ResponseFirstType.js";
-import { SimpleResponse } from "../exception/SimpleResponse.js";
+// import { EduClass } from "../entity/EduClass.js";
+// import { Assignment } from "../entity/Assignment.js";
+// import { ResponseFirstType } from "../exception/ResponseFirstType.js";
+// import { SimpleResponse } from "../exception/SimpleResponse.js";
 
 export class AssignmentService {
   constructor() {
@@ -24,43 +24,42 @@ export class AssignmentService {
 
     return {
       assignmentDetail: assignmentDetail.rows[0],
-      submitedFileName: submitedFileName.rows[0]["original_file_name"]
+      submitedFileName: submitedFileName.rows[0]["original_file_name"],
     };
-  }
+  };
 
   getAssignmentDetail4Teacher = async (assignmentId) => {
     const assignmentDetail = await this.assignmentRepo.getAssignmentDetail(
       assignmentId
     );
-    const classId = await this.assignmentRepo.getClassIdOf(
-      assignmentId
-    );
+    const classId = await this.assignmentRepo.getClassIdOf(assignmentId);
     const submissions = await this.submissionRepo.getStudentSubmissionsOf(
       assignmentId
     );
-    const noOfStudents = await this.ClassRepo.getNoStudentsOf(
-      classId
-    );
+    const noOfStudents = await this.ClassRepo.getNoStudentsOf(classId);
 
-    const noSubmissions = noOfStudents == 0 ? "0/0" : submissions.size() +
-      "/" +
-      noOfStudents +
-      " (" +
-      100 * submissions.size() / noOfStudents +
-      "%)";
+    const noSubmissions =
+      noOfStudents == 0
+        ? "0/0"
+        : submissions.size() +
+          "/" +
+          noOfStudents +
+          " (" +
+          (100 * submissions.size()) / noOfStudents +
+          "%)";
 
     return {
       assignmentDetail: assignmentDetail.rows[0],
       submissions: submissions.rows[0],
-      noSubmissions
+      noSubmissions,
     };
-  }
+  };
 
   deleteAssignment = async (id) => {
     this.assignmentRepo.deleteAssignment(id);
     const res = new SimpleResponse(200, null, null);
     return res;
-  }
+  };
 
   createAssignment = async (im) => {
     const res = new ResponseFirstType(200);
@@ -92,7 +91,7 @@ export class AssignmentService {
       console.log("ERROR in method createAssignment()");
     }
     return res;
-  }
+  };
 
   updateAssignment = async (id, im) => {
     const res = new ResponseFirstType();
@@ -102,7 +101,11 @@ export class AssignmentService {
     } else {
       const currTime = new Date();
       if (im.getOpenTime().compareTo(im.getCloseTime()) > 0) {
-        res.addError("closeTime", "require subsequence date", "Vui lòng chọn thời điểm sau ngày giao");
+        res.addError(
+          "closeTime",
+          "require subsequence date",
+          "Vui lòng chọn thời điểm sau ngày giao"
+        );
       }
       if (assignment.getOpenTime().compareTo(currTime) < 0) {
         if (assignment.getOpenTime().compareTo(im.getOpenTime()) != 0) {
@@ -115,7 +118,11 @@ export class AssignmentService {
         }
       } else {
         if (im.getOpenTime().compareTo(currTime) < 0) {
-          res.addError("openTime", "require future date", "Vui lòng chọn thời điểm trong tương lai");
+          res.addError(
+            "openTime",
+            "require future date",
+            "Vui lòng chọn thời điểm trong tương lai"
+          );
           return res;
         }
       }
@@ -142,19 +149,27 @@ export class AssignmentService {
     res = new ResponseFirstType(200);
 
     return res;
-  }
+  };
 
   validateTime = async (openTime, closeTime) => {
     const res = new ResponseFirstType(400);
 
     if (openTime.compareTo(new Date()) < 0) {
-      res.addError("openTime", "require future date", "Vui lòng chọn thời điểm trong tương lai");
+      res.addError(
+        "openTime",
+        "require future date",
+        "Vui lòng chọn thời điểm trong tương lai"
+      );
     }
 
     if (openTime.compareTo(closeTime) > 0) {
-      res.addError("closeTime", "require subsequent date", "Vui lòng chọn thời điểm sau ngày giao");
+      res.addError(
+        "closeTime",
+        "require subsequent date",
+        "Vui lòng chọn thời điểm sau ngày giao"
+      );
     }
 
     return res;
-  }
+  };
 }

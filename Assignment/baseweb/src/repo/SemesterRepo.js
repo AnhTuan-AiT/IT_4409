@@ -1,27 +1,25 @@
 import { pool } from "../config/db.js";
 
-export class SemesterRepo{
-    constructor() {}
-    save = async() => {
-        
-    }
+export class SemesterRepo {
+  constructor() {}
 
-    findById = async(semesterId) => {
-        const text = `select s from Semester s where s.id = ?1`;
+  save = async () => {};
 
-        const values = [semesterId];
-        return pool.query(text, values);
-    }
-    
-    findAll = async() => {
-        const text = `select * from semester`;
+  findById = async (semesterId) => {
+    const text = `select s from edu_semester s where s.id = ?1`;
 
-        return pool.query(text);
-    }
+    const values = [semesterId];
+    return pool.query(text, values);
+  };
 
-    findByActiveTrue = async() => {
-        const text = `select s from Semester s where s.active = true`;
-        
-        return pool.query(text);
-    }
+  findAll = async () => {
+    const text = `select * from edu_semester`;
+    return pool.query(text);
+  };
+
+  findByActiveTrue = async () => {
+    const text = `select * from edu_semester s where s.is_active = true`;
+
+    return pool.query(text);
+  };
 }

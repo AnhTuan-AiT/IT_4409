@@ -1,16 +1,18 @@
-import {EduDepartmentRepo} from "../repo/EduDepartmentRepo.js"
+import { EduDepartmentRepo } from "../repo/EduDepartmentRepo.js";
 
 export class EduDepartmentService {
-    constructor() {
-        this.eduDepartmentRepo = new EduDepartmentRepo();
-    }
+  constructor() {
+    this.departmentRepo = new EduDepartmentRepo();
+  }
 
-    findAll = async() => {
-        const department = await this.eduDepartmentRepo.findAll();
+  findAll = async () => {
+    const queryResult = await this.departmentRepo.findAll();
 
-        return {
-            department: department.rows[0]
-        };
-    }
+    const responseBody = queryResult.rows.map((row) => ({
+      id: row.id,
+      departmentName: row.department_name,
+    }));
 
+    return responseBody;
+  };
 }

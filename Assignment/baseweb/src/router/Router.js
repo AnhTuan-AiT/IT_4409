@@ -5,10 +5,12 @@ export const router = async (req, res) => {
   const currentUrl = new URL(req.url, baseURL);
   const pathname = currentUrl.pathname;
 
-  const route = routesConfig.find((c) => pathname.startsWith(c.path));
+  const route = routesConfig.find((c) => pathname.startsWith(c.path)); // first element in the provided array that satisfies the provided testing function
+
   if (route === undefined) {
     notFound(res);
   }
+
   routing(req, res, route.path, route.config);
 };
 
@@ -22,7 +24,8 @@ const routing = async (req, res, requestMapping, routeConfig) => {
       method === c.method &&
       pathname.slice(requestMapping.length).startsWith(c.path)
   );
-  if (route === undefined) {
+
+  if (undefined === route || undefined === route.handler) {
     notFound(res);
   }
 
@@ -31,6 +34,6 @@ const routing = async (req, res, requestMapping, routeConfig) => {
 
 const notFound = (res) => {
   res.statusCode = 404;
-  res.setHeader("Content-Type", "text/plain");
-  res.end("Resource not found");
+  // res.setHeader("Content-Type", "text/plain");
+  // res.end("Resource not found");
 };
