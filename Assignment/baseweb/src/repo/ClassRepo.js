@@ -206,7 +206,7 @@ order by
         class_id = $1 
         and status = 'APPROVED'`;
 
-    values = [classId];
+    const values = [classId];
     return pool.query(text, values);
   };
 
@@ -392,7 +392,7 @@ order by
     where
         id = $1`;
 
-    values = [id];
+    const values = [id];
     return pool.query(text, values);
   };
 }

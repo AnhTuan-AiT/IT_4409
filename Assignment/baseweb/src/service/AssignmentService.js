@@ -1,6 +1,8 @@
+import { assignmentDataPath } from "../config/storage.js";
 import { AssignmentRepo } from "../repo/AssignmentRepo.js";
 import { AssignmentSubmissionRepo } from "../repo/AssignmentSubmissionRepo.js";
 import { ClassRepo } from "../repo/ClassRepo.js";
+import { StorageService } from "./StorageService.js";
 // import { EduClass } from "../entity/EduClass.js";
 // import { Assignment } from "../entity/Assignment.js";
 // import { ResponseFirstType } from "../exception/ResponseFirstType.js";
@@ -11,165 +13,257 @@ export class AssignmentService {
     this.assignmentRepo = new AssignmentRepo();
     this.submissionRepo = new AssignmentSubmissionRepo();
     this.classRepo = new ClassRepo();
+    this.storageService = new StorageService();
   }
 
-  getAssignmentDetail = async (assignmentId, studentId) => {
-    const assignmentDetail = await this.assignmentRepo.getAssignmentDetail(
+  /**
+   * done
+   * @param {*} userId
+   * @param {*} assignmentId
+   * @returns
+   */
+  getAssignmentDetail = async (userId, assignmentId) => {
+    let queryResult = await this.assignmentRepo.getAssignmentDetail(
       assignmentId
     );
-    const submitedFileName = await this.submissionRepo.getSubmitedFilenameOf(
+    const assignmentDetail = queryResult.rows[0];
+
+    queryResult = await this.submissionRepo.getSubmitedFilenameOf(
       assignmentId,
-      studentId
+      userId
     );
 
+    const submittedFileName = queryResult.rows[0]["original_file_name"];
+
     return {
-      assignmentDetail: assignmentDetail.rows[0],
-      submitedFileName: submitedFileName.rows[0]["original_file_name"],
+      assignmentDetail: {
+        name: assignmentDetail.name,
+        subject: assignmentDetail.subject,
+        deleted: assignmentDetail.deleted,
+        closeTime: assignmentDetail.closetime,
+        openTime: assignmentDetail.opentime,
+      },
+      submitedFileName: submittedFileName,
     };
   };
 
+  /**
+   * done
+   * @param {*} assignmentId
+   * @returns
+   */
   getAssignmentDetail4Teacher = async (assignmentId) => {
-    const assignmentDetail = await this.assignmentRepo.getAssignmentDetail(
+    let queryResult = await this.assignmentRepo.getAssignmentDetail(
       assignmentId
     );
-    const classId = await this.assignmentRepo.getClassIdOf(assignmentId);
-    const submissions = await this.submissionRepo.getStudentSubmissionsOf(
-      assignmentId
-    );
-    const noOfStudents = await this.ClassRepo.getNoStudentsOf(classId);
+    const assignmentDetail = queryResult.rows[0];
+    const classId = assignmentDetail.classid;
 
+    queryResult = await this.submissionRepo.getStudentSubmissionsOf(
+      assignmentId
+    );
+    const submissions = queryResult.rows;
+
+    queryResult = await this.classRepo.getNoStudentsOf(classId);
+    const noOfStudents = queryResult.rows[0].count;
+    console.log(noOfStudents);
     const noSubmissions =
       noOfStudents == 0
         ? "0/0"
-        : submissions.size() +
-          "/" +
-          noOfStudents +
-          " (" +
-          (100 * submissions.size()) / noOfStudents +
-          "%)";
+        : `${submissions.length}/${noOfStudents} (${
+            (100 * submissions.length) / noOfStudents
+          }%)`;
 
     return {
-      assignmentDetail: assignmentDetail.rows[0],
-      submissions: submissions.rows[0],
-      noSubmissions,
+      assignmentDetail: {
+        name: assignmentDetail.name,
+        subject: assignmentDetail.subject,
+        deleted: assignmentDetail.deleted,
+        closeTime: assignmentDetail.closetime,
+        openTime: assignmentDetail.opentime,
+      },
+      submissions: submissions.map((s) => ({
+        studentId: s.studentid,
+        name: s.name,
+        submissionDate: s.submissiondate,
+        originalFileName: s.originalfilename,
+      })),
+      noSubmissions: noSubmissions,
     };
   };
 
+  /**
+   * done
+   * @param {*} id
+   * @returns
+   */
   deleteAssignment = async (id) => {
-    this.assignmentRepo.deleteAssignment(id);
-    const res = new SimpleResponse(200, null, null);
+    await this.assignmentRepo.deleteAssignment(id);
+    return { status: 200, errors: [] };
+  };
+
+  /**
+   * done
+   * @param {*} Date
+   * @param {*} openTime
+   * @param {*} Date
+   * @param {*} closeTime
+   * @returns
+   */
+  validateTime = (openTime, closeTime) => {
+    let res = { status: 400, errors: [] };
+
+    const open = new Date(openTime);
+    if (open.getTime() < new Date().getTime()) {
+      res.errors.push({
+        location: "openTime",
+        type: "require future date",
+        message: "Vui lòng chọn thời điểm trong tương lai",
+      });
+    }
+
+    const close = new Date(closeTime);
+    if (open.getTime() > close.getTime()) {
+      res.errors.push({
+        location: "closeTime",
+        type: "require subsequent date",
+        message: "Vui lòng chọn thời điểm sau ngày giao",
+      });
+    }
+
     return res;
   };
 
+  /**
+   * done
+   * @param {*} im
+   * @returns
+   */
   createAssignment = async (im) => {
-    const res = new ResponseFirstType(200);
-    res = validateTime(im.getOpenTime(), im.getCloseTime());
+    let res;
+    res = this.validateTime(im.openTime, im.closeTime);
 
-    if (res.getErrors().size() > 0) {
+    if (res.errors.length > 0) {
       return res;
-    }
-    const eduClass = new EduClass();
-    if (1 == this.classRepo.isClassExist(im.getClassId())) {
-      eduClass = new EduClass();
-      eduClass.setId(im.getClassId());
     } else {
-      res.addError("classId", "not exist", "Lớp không tồn tại");
+      res.status = 200;
+    }
+
+    let queryResult = this.classRepo.isClassExist(im.classId);
+    const isClassExist = (await queryResult).rows[0].count;
+
+    if (1 != isClassExist) {
+      res.errors.push({
+        location: "classId",
+        type: "not exist",
+        message: "Lớp không tồn tại",
+      });
       return res;
     }
-    const assignment = new Assignment();
 
-    assignment.setName(StringUtils.normalizeSpace(im.getName()));
-    assignment.setSubject(im.getSubject());
-    assignment.setOpenTime(im.getOpenTime());
-    assignment.setCloseTime(im.getCloseTime());
-    assignment.setEduClass(eduClass);
+    let assignment = {
+      name: im.name?.trim(),
+      subject: im.subject,
+      openTime: new Date(im.openTime),
+      closeTime: new Date(im.closeTime),
+      classId: im.classId,
+    };
 
-    assignment = assignRepo.save(assignment);
+    queryResult = await this.assignmentRepo.save(assignment);
+    assignment = (await queryResult).rows[0];
+
     try {
-      storageService.createFolder(assignment.getId().toString());
+      this.storageService.createFolder(assignmentDataPath + assignment.id);
     } catch (error) {
-      console.log("ERROR in method createAssignment()");
+      console.log("ERROR in method createAssignment()", error);
     }
+
     return res;
   };
 
+  /**
+   * done
+   * @param {*} id
+   * @param {*} im
+   * @returns
+   */
   updateAssignment = async (id, im) => {
-    const res = new ResponseFirstType();
-    const assignment = this.assignmentRepo.findByIdAndDeletedFalse(id);
-    if (assignment == null) {
-      res.addError("id", "not exist", "Bài tập không tồn tại");
+    let res = { status: 400, errors: [] };
+    let queryResult = await this.assignmentRepo.findByIdAndDeletedFalse(id);
+    let assignment = queryResult.rows[0];
+
+    if (!assignment) {
+      res.errors.push({
+        location: "id",
+        type: "not exist",
+        message: "Bài tập không tồn tại",
+      });
     } else {
+      // Validate open and close time.
       const currTime = new Date();
-      if (im.getOpenTime().compareTo(im.getCloseTime()) > 0) {
-        res.addError(
-          "closeTime",
-          "require subsequence date",
-          "Vui lòng chọn thời điểm sau ngày giao"
-        );
+
+      // Error: open time> close time.
+      if (im.openTime.getTime() > im.closeTime.getTime()) {
+        res.errors.push({
+          location: "closeTime",
+          type: "require subsequence date",
+          message: "Vui lòng chọn thời điểm sau ngày giao",
+        });
       }
-      if (assignment.getOpenTime().compareTo(currTime) < 0) {
-        if (assignment.getOpenTime().compareTo(im.getOpenTime()) != 0) {
-          res.addError(
-            "openTime",
-            "not allowed changing",
-            "Vui lòng chọn thời điểm ban đầu vì bài tập đã được giao"
-          );
+
+      // Validate open time.
+      // Old open time < current, only close time modification is allowed.
+      if (new Date(assignment.opentime).getTime() < currTime.getTime()) {
+        if (new Date(assignment.opentime).getTime() !== im.openTime.getTime()) {
+          res.errors.push({
+            location: "openTime",
+            type: "not allowed changing",
+            message: "Vui lòng chọn thời điểm ban đầu vì bài tập đã được giao",
+          });
+
           return res;
         }
       } else {
-        if (im.getOpenTime().compareTo(currTime) < 0) {
-          res.addError(
-            "openTime",
-            "require future date",
-            "Vui lòng chọn thời điểm trong tương lai"
-          );
+        // Allow to modify both open and close time.
+        // Error: new open time < current.
+        if (im.openTime.getTime() < currTime.getTime()) {
+          res.errors.push({
+            location: "openTime",
+            type: "require future date",
+            message: "Vui lòng chọn thời điểm trong tương lai",
+          });
+
           return res;
         }
       }
-      if (assignment.getCloseTime().compareTo(im.getCloseTime()) != 0) {
-        if (im.getCloseTime().compareTo(currTime) < 0) {
-          res.addError(
-            "closeTime",
-            "invalid change",
-            "Vui lòng chọn thời điểm ban đầu hoặc trong tương lai"
-          );
+
+      // Validate close time.
+      if (new Date(assignment.closetime).getTime() !== im.closeTime.getTime()) {
+        if (im.closeTime.getTime() < currTime.getTime()) {
+          res.errors.push({
+            location: "closeTime",
+            type: "invalid change",
+            message: "Vui lòng chọn thời điểm ban đầu hoặc trong tương lai",
+          });
         }
       }
-      if (res.getErrors().size() > 0) {
+
+      if (res.errors.length > 0) {
         return res;
       }
     }
-    assignment.setName(StringUtils.normalizeSpace(im.getName()));
-    assignment.setSubject(im.getSubject());
-    assignment.setOpenTime(im.getOpenTime());
-    assignment.setCloseTime(im.getCloseTime());
 
-    assignRepo.save(assignment);
+    // Valid update.
+    assignment = {};
+    assignment.id = id;
+    assignment.name = im.name?.trim();
+    assignment.subject = im.subject;
+    assignment.openTime = im.openTime;
+    assignment.closeTime = im.closeTime;
 
-    res = new ResponseFirstType(200);
+    this.assignRepo.update(assignment);
 
-    return res;
-  };
-
-  validateTime = async (openTime, closeTime) => {
-    const res = new ResponseFirstType(400);
-
-    if (openTime.compareTo(new Date()) < 0) {
-      res.addError(
-        "openTime",
-        "require future date",
-        "Vui lòng chọn thời điểm trong tương lai"
-      );
-    }
-
-    if (openTime.compareTo(closeTime) > 0) {
-      res.addError(
-        "closeTime",
-        "require subsequent date",
-        "Vui lòng chọn thời điểm sau ngày giao"
-      );
-    }
-
+    res = { status: 200, errors: [] };
     return res;
   };
 }

@@ -1,4 +1,6 @@
 import http from "http";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 import { router } from "./src/router/Router.js";
 
 const hostname = "127.0.0.1";
@@ -9,8 +11,8 @@ export const baseURL = `http://${hostname}:${port}/`;
 const server = http.createServer((req, res) => {
   try {
     res.setHeader("Content-Type", "application/json");
-    router(req, res);
     res.statusCode = 200;
+    router(req, res);
   } catch (e) {
     console.log(e);
     res.statusCode = 500;
@@ -22,3 +24,8 @@ const server = http.createServer((req, res) => {
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+export const rootPath = __dirname + "\\data";

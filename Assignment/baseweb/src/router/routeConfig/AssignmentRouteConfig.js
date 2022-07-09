@@ -16,17 +16,16 @@ export const assignmentRouteConfig = [
   {
     method: HTTP_METHOD.PUT,
     path: "/",
-    handler: controller.updateAsign,
+    handler: controller.updateAssign,
   },
   {
     method: HTTP_METHOD.POST,
-    handler: controller.createAsign,
+    path: "/",
+    handler: controller.createAssign,
   },
   {
     method: HTTP_METHOD.DELETE,
     path: "/",
-    handler: controller.deleteAsign,
+    handler: controller.deleteAssign,
   },
 ];
-
-

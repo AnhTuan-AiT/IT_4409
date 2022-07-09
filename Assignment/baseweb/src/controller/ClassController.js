@@ -1,4 +1,3 @@
-import { baseURL } from "../../app.js";
 import { ClassService } from "../service/ClassService.js";
 import { CourseService } from "../service/CourseService.js";
 import { EduDepartmentService } from "../service/EduDepartmentService.js";
@@ -17,7 +16,7 @@ export class ClassController {
   //   const currentUrl = new URL(req.url, baseURL);
   //   const searchParams = currentUrl.searchParams;
 
-  //   const { userId, page, size } = URLSearchParams2JSON(searchParams);
+  //   const { userId, page, size } = URLSearchParams2JSON(req);
 
   //   RequestBody2JSON(req, async (body) => {
   //     if (null === page) {
@@ -45,10 +44,7 @@ export class ClassController {
    * @param {*} res
    */
   register = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
-
-    const { userId } = URLSearchParams2JSON(searchParams);
+    const { userId } = URLSearchParams2JSON(req);
 
     RequestBody2JSON(req, async (body) => {
       const responseBody = await this.classService.register(
@@ -66,10 +62,7 @@ export class ClassController {
    * @param {*} res
    */
   getClassesOfUser = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
-
-    const { userLoginId: userId } = URLSearchParams2JSON(searchParams);
+    const { userLoginId: userId } = URLSearchParams2JSON(req);
 
     const eduClasses = await this.classService.getClassOfUser(userId);
     res.end(JSON.stringify(eduClasses));
@@ -96,10 +89,7 @@ export class ClassController {
    * @returns
    */
   updateClassStatus = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
-
-    const { classId, status } = URLSearchParams2JSON(searchParams);
+    const { classId, status } = URLSearchParams2JSON(req);
 
     await this.classService.updateClassStatus(classId, status);
     res.end(JSON.stringify("OK"));
@@ -111,10 +101,7 @@ export class ClassController {
    * @param {*} res
    */
   getStudentsOfClass = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
-
-    const { id } = URLSearchParams2JSON(searchParams);
+    const { id } = URLSearchParams2JSON(req);
     const students = await this.classService.getStudentsOfClass(id);
     res.end(JSON.stringify(students));
   };
@@ -125,10 +112,7 @@ export class ClassController {
    * @param {*} res
    */
   getRegistStudentsOfClass = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
-
-    const { id } = URLSearchParams2JSON(searchParams);
+    const { id } = URLSearchParams2JSON(req);
 
     const lst = await this.classService.getRegistStudentsOfClass(id);
     res.end(JSON.stringify(lst));
@@ -158,10 +142,7 @@ export class ClassController {
    * @param {*} res
    */
   getClassesOfTeacher = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
-
-    const { teacherId } = URLSearchParams2JSON(searchParams);
+    const { teacherId } = URLSearchParams2JSON(req);
 
     const classes = await this.classService.getClassesOfTeacher(teacherId);
     res.end(JSON.stringify(classes));
@@ -173,10 +154,7 @@ export class ClassController {
    * @param {*} res
    */
   getClassesOfStudent = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
-
-    const { studentId } = URLSearchParams2JSON(searchParams);
+    const { studentId } = URLSearchParams2JSON(req);
 
     const classes = await this.classService.getClassesOfStudent(studentId);
     res.end(JSON.stringify(classes));
@@ -188,10 +166,7 @@ export class ClassController {
    * @param {*} res
    */
   getClassDetail = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
-
-    const { id } = URLSearchParams2JSON(searchParams);
+    const { id } = URLSearchParams2JSON(req);
     const classDetail = await this.classService.getClassDetail(id);
     res.end(JSON.stringify(classDetail));
   };
@@ -202,10 +177,7 @@ export class ClassController {
    * @param {*} res
    */
   getAssignOfClass4Teacher = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
-
-    const { id } = URLSearchParams2JSON(searchParams);
+    const { id } = URLSearchParams2JSON(req);
     const assignments = await this.classService.getAssign4Teacher(id);
     res.end(JSON.stringify(assignments));
   };
@@ -216,10 +188,7 @@ export class ClassController {
    * @param {*} res
    */
   getAllStuAssignOfClass4Teacher = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
-
-    const { id } = URLSearchParams2JSON(searchParams);
+    const { id } = URLSearchParams2JSON(req);
     const assignments = await this.classService.getAllStuAssign4Teacher(id);
     res.end(JSON.stringify(assignments));
   };
@@ -231,16 +200,13 @@ export class ClassController {
   //   const currentUrl = new URL(req.url, baseURL);
   //   const searchParams = currentUrl.searchParams;
 
-  //   const { id } = URLSearchParams2JSON(searchParams);
+  //   const { id } = URLSearchParams2JSON(req);
   //   const submissions = await this.classService.getAssignSubmit4Teacher(id);
   //   res.end(JSON.stringify(submissions));
   // };
 
   getAssignOfClass4Student = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
-
-    const { id } = URLSearchParams2JSON(searchParams);
+    const { id } = URLSearchParams2JSON(req);
     const assignments = await this.classService.getAssign4Student(id);
     res.end(JSON.stringify(assignments));
   };
@@ -251,10 +217,7 @@ export class ClassController {
    * @param {*} res
    */
   addEduClass = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
-
-    const { teacherId } = URLSearchParams2JSON(searchParams);
+    const { teacherId } = URLSearchParams2JSON(req);
 
     RequestBody2JSON(req, async (body) => {
       const responseBody = await this.classService.save(teacherId, body);

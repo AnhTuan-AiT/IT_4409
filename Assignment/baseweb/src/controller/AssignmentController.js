@@ -1,6 +1,6 @@
-import { baseURL } from "../../app.js";
 import { AssignmentService } from "../service/AssignmentService.js";
 import { ClassService } from "../service/ClassService.js";
+import { RequestBody2JSON, URLSearchParams2JSON } from "../utils/http.js";
 
 export class AssignmentController {
   constructor() {
@@ -8,91 +8,82 @@ export class AssignmentController {
     this.classService = new ClassService();
   }
 
+  /**
+   * done
+   * @param {*} req
+   * @param {*} res
+   */
   getAssignDetail = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
+    const { assignmentId, userId } = URLSearchParams2JSON(req);
 
-    const assignmentId = searchParams.get("assignmentId");
-    const studentId = searchParams.get("studentId");
     const assignmentDetail = await this.assignmentService.getAssignmentDetail(
-      assignmentId,
-      studentId
+      userId,
+      assignmentId
     );
     res.end(JSON.stringify(assignmentDetail));
   };
 
+  /**
+   * done
+   * @param {*} req
+   * @param {*} res
+   */
   getAssignDetail4Teacher = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
+    const { assignmentId } = URLSearchParams2JSON(req);
 
-    const assignmentId = searchParams.get("assignmentId");
-    const classId = await this.assignmentService.getClassIdOf(assignmentId);
-    const noOfStudents = await this.classService.getNoStudentOf(classId);
-    const submissions = await this.assignmentService.getStudentSubmissionsOf(assignmentId);
-    const noSubmissions = noOfStudents == 0 ? "0/0" : submissions.size() +
-      "/" +
-      noOfStudents +
-      " (" +
-      100 * submissions.size() / noOfStudents +
-      "%)";
-    const assignmentDetail4Teacher = await this.assignmentService.getAssignmentDetail4Teacher(
-      assignmentId,
-      submissions,
-      noSubmissions
-    );
-    res.end(JSON.stringify(assignmentDetail4Teacher))
+    const assignmentDetail =
+      await this.assignmentService.getAssignmentDetail4Teacher(assignmentId);
+
+    res.end(JSON.stringify(assignmentDetail));
   };
 
-  createAsign = async (req, res) => {
-    const assign = {
-      classId: req.body.classId,
-      name: req.body.name,
-      openTime: req.body.openTime,
-      closeTime: req.body.closeTime,
-      subject: req.body.subject
-    }
-
-    assignmentService.createAsignment(assign).then(assign => {
-      res.status(200).json({ asignment: assign })
-    }).catch(err => {
-      res.status(500).json({ error: err.message })
+  /**
+   * done
+   * @param {*} req
+   * @param {*} res
+   */
+  createAssign = async (req, res) => {
+    RequestBody2JSON(req, async (body) => {
+      const responseBody = await this.assignmentService.createAssignment(body);
+      res.status = responseBody.status;
+      res.end(JSON.stringify(responseBody));
     });
-  }
+  };
 
-  updateAsign = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
-
-    const assignmentId = searchParams.get("assignmentId");
-
-    const assign = {
-      classId: req.body.classId,
-      name: req.body.name,
-      openTime: req.body.openTime,
-      closeTime: req.body.closeTime,
-      subject: req.body.subject
-    }
-
-    this.assignmentService.updateAssignment(assignmentId, assign).then(assignmentId, asign => {
-      res.status(200).json({
-        assignmentId: assignmentId,
-        assignment: assign
-      })
-    }).catch(err => {
-      res.status(500).json({ error: err.message })
+  /**
+   * done
+   * @param {*} req
+   * @param {*} res
+   */
+  updateAssign = async (req, res) => {
+    const { assignmentId } = URLSearchParams2JSON(req);
+    RequestBody2JSON(req, async (body) => {
+      const responseBody = await this.assignmentService.updateAssignment(
+        assignmentId,
+        {
+          ...body,
+          closeTime: new Date(body.closeTime),
+          openTime: new Date(body.openTime),
+        }
+      );
+      res.status = responseBody.status;
+      res.end(JSON.stringify(responseBody));
     });
-  }
+  };
 
-  deleteAsign = async (req, res) => {
-    const currentUrl = new URL(req.url, baseURL);
-    const searchParams = currentUrl.searchParams;
+  /**
+   * done
+   * @param {*} req
+   * @param {*} res
+   */
+  deleteAssign = async (req, res) => {
+    const { assignmentId } = URLSearchParams2JSON(req);
 
-    const assignmentId = searchParams.get("assignmentId");
+    const responseBody = await this.assignmentService.deleteAssignment(
+      assignmentId
+    );
 
-    this.assignmentService.deleteAssignment(assignmentId).then(assignmentId => {
-      res.status(200).json({ assignmentId: assignmentId })
-    }).catch(err => {
-      res.status(500).json({ error: err.message })
-    })
-  }
+    res.status = responseBody.status;
+    res.end(JSON.stringify(responseBody));
+  };
 }

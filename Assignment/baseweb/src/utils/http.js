@@ -1,4 +1,9 @@
-export const URLSearchParams2JSON = (searchParams) => {
+import { baseURL } from "../../app.js";
+
+export const URLSearchParams2JSON = (req) => {
+  const currentUrl = new URL(req.url, baseURL);
+  const searchParams = currentUrl.searchParams;
+
   return Object.fromEntries([...searchParams]);
 };
 
