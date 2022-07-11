@@ -118,22 +118,6 @@ order by
     return pool.query(text1, values);
   };
 
-  countClass = async (semesterId, status) => {
-    const text = `select
-        count(cl.id)
-    from
-        edu_class as cl
-    inner join edu_course as co on
-        cl.course_id = co.id
-    inner join edu_department as d on
-        cl.department_id = d.id
-    where
-        cl.semester_id = $1 
-        and cl.status_id = $2`;
-
-    return pool.query(text, [semesterId, status]);
-  };
-
   findBySemesterWithFilters = async (
     semesterId,
     code,
@@ -145,7 +129,7 @@ order by
     page,
     size
   ) => {
-    const text1 = `select
+    const text = `select
         cast(cl.id as varchar) id,
         code,
         class_code classCode,
@@ -162,26 +146,12 @@ order by
     where
         cl.semester_id = $1
         and cast(code as varchar) like concat('%', lower(unaccent($2)), '%')
-        and lower(unaccent(co.id)) like concat('%', lower(unaccent($3)), '%')
-        and lower(unaccent(co.course_name)) like concat('%', lower(unaccent($4)), '%')
-        and lower(unaccent(cl.class_type)) like concat('%', lower(unaccent($5)), '%')
-        and lower(unaccent(d.id)) like concat('%', lower(unaccent($6)), '%')`;
-
-    const text2 = `select
-        count(cl.id)
-    from 
-        edu_class as cl
-    inner join edu_course as co on
-        cl.course_id = co.id
-    inner join edu_department as d on
-        cl.department_id = d.id
-    where
-        cl.semester_id = $1
-        and cast(code as varchar) like concat('%', lower(unaccent($2)), '%')
-        and lower(unaccent(co.id)) like concat('%', lower(unaccent($3)), '%')
-        and lower(unaccent(co.course_name)) like concat('%', lower(unaccent($4)), '%')
-        and lower(unaccent(cl.class_type)) like concat('%', lower(unaccent($5)), '%')
-        and lower(unaccent(d.id)) like concat('%', lower(unaccent($6)), '%')`;
+        and lower(unaccent(class_code)) like concat('%', lower(unaccent($3)), '%')
+        and lower(unaccent(co.id)) like concat('%', lower(unaccent($4)), '%')
+        and lower(unaccent(co.course_name)) like concat('%', lower(unaccent($5)), '%')
+        and lower(unaccent(cl.class_type)) like concat('%', lower(unaccent($6)), '%')
+        and lower(unaccent(d.id)) like concat('%', lower(unaccent($7)), '%')
+    offset $8 limit $9`;
 
     const values = [
       semesterId,
@@ -194,7 +164,8 @@ order by
       page,
       size,
     ];
-    return [pool.query(text1, values), pool.query(text2, values)];
+
+    return pool.query(text, values);
   };
 
   getNoStudentsOf = async (classId) => {
@@ -378,9 +349,11 @@ order by
     where  
         student_id = $1
         and status in ('WAITING_FOR_APPROVAL', 'APPROVED')
-        and class_id in $2`;
+        and cast(class_id as varchar) in (${classIds
+          .map((id, index) => `$${index + 2}`)
+          .join(",")})`;
 
-    values = [studentId, classIds];
+    const values = [studentId, ...classIds];
     return pool.query(text, values);
   };
 

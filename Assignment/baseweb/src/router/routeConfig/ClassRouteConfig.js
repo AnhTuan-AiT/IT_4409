@@ -1,14 +1,8 @@
 import { ClassController } from "../../controller/ClassController.js";
-import { HTTP_METHOD } from "../../utils/constant.js";
+import { HTTP_METHOD } from "../../utils/http.js";
 
 const controller = new ClassController();
 export const classRouteConfig = [
-  // {
-  //   method: HTTP_METHOD.POST,
-  //   path: "/",
-  //   handler: controller.getClassesOfCurrSemester,
-  // },
-
   {
     method: HTTP_METHOD.POST,
     path: "/register",
@@ -98,5 +92,10 @@ export const classRouteConfig = [
     method: HTTP_METHOD.GET,
     path: "/",
     handler: controller.getClassDetail,
+  },
+  {
+    method: HTTP_METHOD.POST,
+    path: "/",
+    handler: controller.getClassesOfCurrSemester,
   },
 ];

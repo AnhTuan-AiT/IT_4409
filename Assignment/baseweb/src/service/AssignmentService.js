@@ -1,19 +1,14 @@
-import { assignmentDataPath } from "../config/storage.js";
 import { AssignmentRepo } from "../repo/AssignmentRepo.js";
 import { AssignmentSubmissionRepo } from "../repo/AssignmentSubmissionRepo.js";
 import { ClassRepo } from "../repo/ClassRepo.js";
-import { StorageService } from "./StorageService.js";
-// import { EduClass } from "../entity/EduClass.js";
-// import { Assignment } from "../entity/Assignment.js";
-// import { ResponseFirstType } from "../exception/ResponseFirstType.js";
-// import { SimpleResponse } from "../exception/SimpleResponse.js";
+// import { StorageService } from "./StorageService.js";
 
 export class AssignmentService {
   constructor() {
     this.assignmentRepo = new AssignmentRepo();
     this.submissionRepo = new AssignmentSubmissionRepo();
     this.classRepo = new ClassRepo();
-    this.storageService = new StorageService();
+    // this.storageService = new StorageService();
   }
 
   /**
@@ -33,7 +28,10 @@ export class AssignmentService {
       userId
     );
 
-    const submittedFileName = queryResult.rows[0]["original_file_name"];
+    let submittedFileName = null;
+    if (queryResult.rowCount > 0) {
+      submittedFileName = queryResult.rows[0]["original_file_name"];
+    }
 
     return {
       assignmentDetail: {
@@ -170,13 +168,13 @@ export class AssignmentService {
     };
 
     queryResult = await this.assignmentRepo.save(assignment);
-    assignment = (await queryResult).rows[0];
+    // assignment = (await queryResult).rows[0];
 
-    try {
-      this.storageService.createFolder(assignmentDataPath + assignment.id);
-    } catch (error) {
-      console.log("ERROR in method createAssignment()", error);
-    }
+    // try {
+    //   this.storageService.createFolder(assignmentDataPath + assignment.id);
+    // } catch (error) {
+    //   console.log("ERROR in method createAssignment()", error);
+    // }
 
     return res;
   };
@@ -261,7 +259,7 @@ export class AssignmentService {
     assignment.openTime = im.openTime;
     assignment.closeTime = im.closeTime;
 
-    this.assignRepo.update(assignment);
+    this.assignmentRepo.update(assignment);
 
     res = { status: 200, errors: [] };
     return res;

@@ -30,7 +30,7 @@ set
 	assignment_name = $1,
 	subject = $2,
 	close_time = $3,
-	open_time = $4,
+	open_time = $4
 where
 	id = $5;`;
 

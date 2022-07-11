@@ -1,6 +1,6 @@
 import { ClassService } from "../service/ClassService.js";
 import { CourseService } from "../service/CourseService.js";
-import { EduDepartmentService } from "../service/EduDepartmentService.js";
+import { EduDepartmentService } from "../service/DepartmentService.js";
 import { SemesterService } from "../service/SemesterService.js";
 import { RequestBody2JSON, URLSearchParams2JSON } from "../utils/http.js";
 
@@ -12,31 +12,33 @@ export class ClassController {
     this.departmentService = new EduDepartmentService();
   }
 
-  // getClassesOfCurrSemester = async (req, res) => {
-  //   const currentUrl = new URL(req.url, baseURL);
-  //   const searchParams = currentUrl.searchParams;
+  /**
+   * done
+   * @param {*} req
+   * @param {*} res
+   */
+  getClassesOfCurrSemester = async (req, res) => {
+    const { userId, page, size } = URLSearchParams2JSON(req);
 
-  //   const { userId, page, size } = URLSearchParams2JSON(req);
+    RequestBody2JSON(req, async (body) => {
+      if (null === page) {
+        page = 0;
+      }
 
-  //   RequestBody2JSON(req, async (body) => {
-  //     if (null === page) {
-  //       page = 0;
-  //     }
+      if (null === size) {
+        size = 20;
+      }
 
-  //     if (null === size) {
-  //       size = 20;
-  //     }
+      const classes = await this.classService.getClassesOfCurrentSemester(
+        userId,
+        body,
+        page,
+        size
+      );
 
-  //     const a = await this.classService.getClassesOfCurrentSemester(
-  //       userId,
-  //       body,
-  //       page,
-  //       size
-  //     );
-
-  //     res.end(JSON.stringify(a));
-  //   });
-  // };
+      res.end(JSON.stringify(classes));
+    });
+  };
 
   /**
    * done

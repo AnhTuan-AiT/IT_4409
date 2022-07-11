@@ -1,8 +1,8 @@
 import _ from "underscore";
 import { ClassRegistrationRepo } from "../repo/ClassRegistrationRepo.js";
 import { ClassRepo } from "../repo/ClassRepo.js";
-import { EduClassUserLoginRoleRepo } from "../repo/EduClassUserLoginRoleRepo.js";
-import { CourseRepo } from "../repo/EduCourseRepo.js";
+import { EduClassUserLoginRoleRepo } from "../repo/ClassUserRoleRepo.js";
+import { CourseRepo } from "../repo/CourseRepo.js";
 import { SemesterRepo } from "../repo/SemesterRepo.js";
 
 export class ClassService {
@@ -24,61 +24,94 @@ export class ClassService {
     });
   }
 
-  // getClassesOfCurrentSemester = async (userId, filterParams, page, size) => {
-  //   const semester = await this.semesterRepo.findByActiveTrue();
-  //   const { id: semesterId } = semester.rows[0];
+  /**
+   * done
+   * @param {*} userId
+   * @param {*} filterParams
+   * @param {*} page
+   * @param {*} size
+   * @returns
+   */
+  getClassesOfCurrentSemester = async (userId, filterParams, page, size) => {
+    let queryResult = await this.semesterRepo.findByActiveTrue();
+    const { id: semesterId } = queryResult.rows[0];
 
-  //   let classes;
-  //   const registeredClasses = new Set();
+    let classes;
+    let registeredClasses = new Set();
 
-  //   const { courseId, courseName, classType, departmentId, code } =
-  //     filterParams;
+    const { courseId, courseName, classType, departmentId, code, classCode } =
+      filterParams;
 
-  //   if (
-  //     _(courseId).isBlank() &&
-  //     _(courseName).isBlank() &&
-  //     _(classType).isBlank() &&
-  //     _(departmentId).isBlank() &&
-  //     null === code
-  //   ) {
-  //     classes = await this.classRepo.findBySemester(
-  //       semesterId,
-  //       "OPEN",
-  //       page,
-  //       size
-  //     );
-  //     const count = await this.classRepo.countClass(semesterId, "OPEN");
+    if (
+      _(courseId).isBlank() &&
+      _(courseName).isBlank() &&
+      _(classType).isBlank() &&
+      _(departmentId).isBlank() &&
+      null === code
+    ) {
+      queryResult = await this.classRepo.findBySemester(
+        semesterId,
+        "OPEN",
+        page,
+        size
+      );
 
-  //     console.log(classes.rows[0]);
-  //   } else {
-  //     classes = this.classRepo.findBySemesterWithFilters(
-  //       semesterId,
-  //       null === code ? "" : code,
-  //       null == classCode ? "" : classCode,
-  //       null == courseId ? "" : courseId.replaceAll(" ", ""),
-  //       null == courseName ? "" : courseName,
-  //       null == classType ? "" : classType.replaceAll(" ", ""),
-  //       null == departmentId ? "" : departmentId.replaceAll(" ", ""),
-  //       page,
-  //       size
-  //     );
-  //   }
+      classes = {
+        content: queryResult.rows.map((row) => ({
+          courseId: row.courseid,
+          classCode: row.classcode,
+          departmentId: row.departmentid,
+          classType: row.classtype,
+          courseName: row.coursename,
+          code: row.code,
+          id: row.id,
+        })),
+        totalElements: queryResult.rowCount,
+        number: parseInt(page),
+      };
+    } else {
+      queryResult = await this.classRepo.findBySemesterWithFilters(
+        semesterId,
+        undefined === code ? "" : code,
+        undefined == classCode ? "" : classCode,
+        undefined == courseId ? "" : courseId.replace(/ /g, ""),
+        undefined == courseName ? "" : courseName.replace(/ /g, ""),
+        undefined == classType ? "" : classType.replace(/ /g, ""),
+        undefined == departmentId ? "" : departmentId.replace(/ /g, ""),
+        page,
+        size
+      );
 
-  //   // if (0 < classes.getContent().size()) {
-  //   //     registeredClasses = classRepo.getRegisteredClassesIn(
-  //   //         studentId,
-  //   //         classes
-  //   //             .get()
-  //   //             .map(aClass -> UUID.fromString(aClass.getId()))
-  //   //             .collect(Collectors.toList()));
-  //   // }
+      classes = {
+        content: queryResult.rows.map((row) => ({
+          courseId: row.courseid,
+          classCode: row.classcode,
+          departmentId: row.departmentid,
+          classType: row.classtype,
+          courseName: row.coursename,
+          code: row.code,
+          id: row.id,
+        })),
+        totalElements: queryResult.rowCount,
+        number: parseInt(page),
+      };
+    }
 
-  //   return {
-  //     semesterId: semester.id,
-  //     page: classes,
-  //     registeredClasses: registeredClasses,
-  //   };
-  // };
+    if (0 < classes.content.length) {
+      queryResult = await this.classRepo.getRegisteredClassesIn(
+        userId,
+        classes.content.map((cl) => cl.id)
+      );
+
+      registeredClasses = queryResult.rows.map((row) => row.class_id);
+    }
+
+    return {
+      semesterId: semesterId,
+      page: classes,
+      registeredClasses: registeredClasses,
+    };
+  };
 
   /**
    * done
@@ -101,7 +134,11 @@ export class ClassService {
     }
 
     queryResult = await this.registRepo.checkRegistration(classId, userId);
-    const { status: check } = queryResult.rows[0];
+
+    let check = undefined;
+    if (queryResult.rowCount > 0) {
+      check = queryResult.rows[0].status;
+    }
 
     if ("WAITING_FOR_APPROVAL" === check || "APPROVED" === check) {
       res = {
@@ -436,7 +473,7 @@ export class ClassService {
       openTime: row.opentime,
       closeTime: row.closetime,
       deleted: row.deleted,
-    }))[0];
+    }));
 
     return responseBody;
   };
@@ -514,7 +551,7 @@ export class ClassService {
       id: row.id,
       name: row.name,
       closeTime: row.closetime,
-    }))[0];
+    }));
 
     return responseBody;
   };
@@ -546,7 +583,7 @@ export class ClassService {
     clazz.semesterId = addClassDTO.semesterId;
     clazz.classType = addClassDTO.classType;
 
-    this.classRepo.save(clazz);
+    await this.classRepo.save(clazz);
     queryResult = await this.classRepo.findByClassCode(addClassDTO.classCode);
     clazz = queryResult.rows[0];
 

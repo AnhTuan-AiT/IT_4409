@@ -45,7 +45,7 @@ export class AssignmentController {
   createAssign = async (req, res) => {
     RequestBody2JSON(req, async (body) => {
       const responseBody = await this.assignmentService.createAssignment(body);
-      res.status = responseBody.status;
+      res.statusCode = responseBody.status;
       res.end(JSON.stringify(responseBody));
     });
   };
@@ -66,7 +66,7 @@ export class AssignmentController {
           openTime: new Date(body.openTime),
         }
       );
-      res.status = responseBody.status;
+      res.statusCode = responseBody.status;
       res.end(JSON.stringify(responseBody));
     });
   };
@@ -83,7 +83,7 @@ export class AssignmentController {
       assignmentId
     );
 
-    res.status = responseBody.status;
+    res.statusCode = responseBody.status;
     res.end(JSON.stringify(responseBody));
   };
 }

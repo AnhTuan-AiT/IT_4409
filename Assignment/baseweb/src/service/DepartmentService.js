@@ -1,4 +1,4 @@
-import { EduDepartmentRepo } from "../repo/EduDepartmentRepo.js";
+import { EduDepartmentRepo } from "../repo/DepartmentRepo.js";
 
 export class EduDepartmentService {
   constructor() {

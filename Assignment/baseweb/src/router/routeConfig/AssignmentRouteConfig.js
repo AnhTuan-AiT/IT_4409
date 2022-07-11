@@ -1,5 +1,5 @@
 import { AssignmentController } from "../../controller/AssignmentController.js";
-import { HTTP_METHOD } from "../../utils/constant.js";
+import { HTTP_METHOD } from "../../utils/http.js";
 
 const controller = new AssignmentController();
 export const assignmentRouteConfig = [

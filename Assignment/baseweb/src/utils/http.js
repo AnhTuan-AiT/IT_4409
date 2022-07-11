@@ -19,3 +19,10 @@ export const RequestBody2JSON = (req, func) => {
     func(body);
   });
 };
+
+export const HTTP_METHOD = {
+  GET: "GET",
+  POST: "POST",
+  PUT: "PUT",
+  DELETE: "DELETE",
+};
