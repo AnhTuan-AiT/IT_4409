@@ -37,11 +37,11 @@ Khi đã sẵn sàng cho quá trình cài đặt project, thực hiện lần l�
 - Thêm thư mục project <b>baseweb</b> vào Workspace trong Visual Studio Code
 - Mở Git Bash tại thư mục project, chạy lệnh: `npm i`
 
-* Trong file <b>Assignment/baseweb/src/config/db.js</b>, điền mật khẩu và tên PostgreSQL Database được tạo ở 1 tương ứng cho các thuộc tính <b>
+* Trong file <b>Assignment/baseweb/src/config/db.js</b>, điền mật khẩu và tên PostgreSQL Database được tạo ở bước 1 tương ứng cho các thuộc tính <b>
   password</b> và <b>database</b>
 
 ### 3. Chạy project
 
-- Mở Git Bash tại thư mục project (có thể sử dụng Windows Command Prompt, Visual Studio Code Terminal, Windows PowerShell,...), chạy lệnh: `nodemon app.js`
+- Mở Git Bash (có thể sử dụng Windows Command Prompt, Visual Studio Code Terminal, Windows PowerShell,...) tại thư mục project, chạy lệnh: `nodemon app.js`
 
-Sau lần chạy thành công đầu tiên, ở các lần chạy sau chỉ cần thực hiện bước 3
+Sau lần chạy thành công đầu tiên, ở các lần chạy sau chỉ cần thực hiện bước 3.

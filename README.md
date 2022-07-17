@@ -157,21 +157,23 @@ Mở các file <b>.html</b> trong trình duyệt để xem kết quả.
 
 ## Hướng dẫn cài đặt và chạy Lab 07:
 
-### 7.1 
+### 7.1
 
 Mở file <b>.xml</b> trong trình duyệt để xem kết quả.
 
 ### 7.2
 
-Mở file <b>.html</b> trong trình duyệt để xem kết quả. Kết quả trong ảnh được chạy trên trình duyệt <b><i>Firefox v101.0.1</i></b>.	
+Mở file <b>.html</b> trong trình duyệt để xem kết quả. Kết quả trong ảnh được chạy trên trình duyệt <b><i>Firefox v101.0.1</i></b>.
 
 ### 7.3
+
+Thực hiện lần lượt theo các bước sau:
 
 - Truy cập Google Maps qua URL: https://www.google.com/maps/about/mymaps/
 - Đăng nhập vào tài khoản Google của bạn.
 - Nhấn vào nút <b>CREATE A NEW MAP</b> ở góc trên bên trái trình duyệt.
 - Nhấn vào nút <b>Import</b> màu xanh ở bên trái màn hình.
-- Tìm đường dẫn đến file <b>.kml</b> và upload lên Google Maps để xem kết quả.
+- Duyệt đến file <b>.kml</b> và tải lên Google Maps để xem kết quả.
 
 ### 7.4
 
@@ -179,20 +181,30 @@ Mở file <b>.xml</b> trong trình duyệt để xem kết quả.
 
 ### 7.5
 
-#### 7.5.3, 7.5.5
+#### 7.5.3, 7.5.5:
 
-Xem các file <b>.docx</b>
+- Xem các file <b>.docx</b>
 
-#### Các phần khác
+#### Các phần khác:
 
-Mở các file <b>.html</b>, <b>.xml</b> trong trình duyệt để xem kết quả.
+- Mở các file <b>.html</b> trong trình duyệt để xem kết quả.
 
 ### 7.6
 
-Bạn cần có XAMPP cài đặt sẵn trên máy. Khi muốn xem kết quả của các file .php trong trình duyệt cần thực hiện các bước như sau:
+Bạn cần có XAMPP cài đặt sẵn trên máy. Khi mọi thứ đã sẵn sàng, thực hiện lần lượt theo các bước sau để xem kết quả của các file .php:
 
 - Copy thư mục <b>7.6</b> vào thư mục <b>rooPath\htdocs</b>.
 - Khởi động Apache trong XAMPP Control Panel (nếu chưa khởi động).
 - Xem kết quả trong trình duyệt tại URL: http://localhost/7.6/ten_thu_muc/ten_tep, ví dụ: http://localhost/7.6/7.6.2/7.6.2.1.php
+
+## Hướng dẫn cài đặt và chạy bài tập lớn:
+
+### Backend
+
+Xem tệp: <b>/Assignment/baseweb/README.md</b>.
+
+### Frontend
+
+Xem tệp: <b>/Assignment/basewebfrontend/README.md</b>.
 
 Mọi khó khăn trong quá trình cài đặt và chạy project, vui lòng liên hệ qua email: anhtuan0126104@gmail.com để được hỗ trợ.
