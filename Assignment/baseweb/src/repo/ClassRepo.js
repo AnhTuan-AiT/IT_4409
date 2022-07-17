@@ -233,7 +233,7 @@ order by
   getDetailOf = async (id) => {
     const text = `select
         cast(ecl.id as varchar) id,
-        ecl.code code,
+        ecl.class_code code,
         ec.id courseId,
         ec.course_name "name",
         ecl.class_type classType,
