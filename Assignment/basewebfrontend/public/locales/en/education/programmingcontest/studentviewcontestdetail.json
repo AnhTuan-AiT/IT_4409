@@ -1,0 +1,17 @@
+{
+  "ID": "ID",
+  "problem": "Problem",
+  "problemId": "Problem ID",
+  "level": "Level",
+  "problemList": {
+    "title": "Problems"
+  },
+  "submissionList": {
+    "title": "Submissions",
+    "status": "Status",
+    "language": "Language",
+    "point": "Grade",
+    "at": "At",
+    "numTestCases": "Test cases"
+  }
+}
